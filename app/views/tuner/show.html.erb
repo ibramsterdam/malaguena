@@ -18,9 +18,10 @@
   <div class="tuner-head">
     <svg class="tuner-art" viewBox="0 0 260 340" aria-hidden="true">
       <defs>
-        <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#523823"/>
-          <stop offset="1" stop-color="#3A2817"/>
+        <linearGradient id="ebony" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2B2018"/>
+          <stop offset="0.5" stop-color="#1C130C"/>
+          <stop offset="1" stop-color="#241A12"/>
         </linearGradient>
         <linearGradient id="neckwood" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stop-color="#3A2817"/>
@@ -28,49 +29,51 @@
         </linearGradient>
       </defs>
 
-      <!-- tightening knobs: bone paddles on metal stems -->
+      <!-- tightening knobs: ebony paddles on their stems -->
       <g stroke-linecap="round">
         <% [80, 145, 210].each do |y| %>
-          <rect x="40"  y="<%= y - 3 %>" width="40" height="6" rx="3" fill="#8C744E"/>
-          <rect x="180" y="<%= y - 3 %>" width="40" height="6" rx="3" fill="#8C744E"/>
-          <rect x="16"  y="<%= y - 15 %>" width="26" height="30" rx="11" fill="#D8C9A8" stroke="#8C744E" stroke-width="1.5"/>
-          <rect x="218" y="<%= y - 15 %>" width="26" height="30" rx="11" fill="#D8C9A8" stroke="#8C744E" stroke-width="1.5"/>
+          <rect x="42"  y="<%= y - 3 %>" width="32" height="6" rx="3" fill="#55402A"/>
+          <rect x="186" y="<%= y - 3 %>" width="32" height="6" rx="3" fill="#55402A"/>
+          <rect x="18"  y="<%= y - 15 %>" width="26" height="30" rx="12" fill="#2B1F15" stroke="#6B5334" stroke-width="1.5"/>
+          <rect x="216" y="<%= y - 15 %>" width="26" height="30" rx="12" fill="#2B1F15" stroke="#6B5334" stroke-width="1.5"/>
         <% end %>
       </g>
 
-      <!-- head plate with a carved crown -->
-      <path d="M82 262 L75 52 Q75 38 84 32 Q98 23 110 28 Q122 33 130 40 Q138 33 150 28 Q162 23 176 32 Q185 38 185 52 L178 262 Z"
-            fill="url(#wood)" stroke="#5E442C" stroke-width="2.5" stroke-linejoin="round"/>
+      <!-- ebony head plate, cream binding, open-book crown -->
+      <path d="M78 262 L68 58 Q68 36 80 32 Q94 20 108 26 Q122 30 128 40 L130 43 L132 40 Q138 30 152 26 Q166 20 180 32 Q192 36 192 58 L182 262 Z"
+            fill="url(#ebony)" stroke="#C9B893" stroke-width="2" stroke-linejoin="round"/>
 
-      <!-- slots -->
-      <rect x="88"  y="58" width="32" height="180" rx="16" fill="#1A120B" stroke="#2A1B10" stroke-width="1.5"/>
-      <rect x="140" y="58" width="32" height="180" rx="16" fill="#1A120B" stroke="#2A1B10" stroke-width="1.5"/>
+      <!-- the maker's mark -->
+      <text x="130" y="74" text-anchor="middle" fill="var(--accent)"
+            font-family="Snell Roundhand, Iowan Old Style, Palatino, serif" font-style="italic"
+            font-size="34" font-weight="600">M</text>
 
-      <!-- rollers and string posts -->
+      <!-- string posts on the face -->
       <g>
         <% [80, 145, 210].each do |y| %>
-          <rect x="92"  y="<%= y - 8 %>" width="24" height="16" rx="7" fill="#7A5C3A" stroke="#2A1B10" stroke-width="1"/>
-          <rect x="144" y="<%= y - 8 %>" width="24" height="16" rx="7" fill="#7A5C3A" stroke="#2A1B10" stroke-width="1"/>
-          <circle cx="104" cy="<%= y %>" r="3.2" fill="#D8C9A8"/>
-          <circle cx="156" cy="<%= y %>" r="3.2" fill="#D8C9A8"/>
+          <% [108, 152].each do |x| %>
+            <circle cx="<%= x %>" cy="<%= y %>" r="9" fill="none" stroke="#55402A" stroke-width="1.5"/>
+            <circle cx="<%= x %>" cy="<%= y %>" r="6" fill="#0F0A06" stroke="#6B5334" stroke-width="1.2"/>
+            <circle cx="<%= x %>" cy="<%= y %>" r="2.2" fill="#D8C9A8"/>
+          <% end %>
         <% end %>
       </g>
 
       <!-- neck -->
-      <path d="M95 268 L165 268 L168 335 L92 335 Z" fill="url(#neckwood)" stroke="#2A1B10" stroke-width="1.5"/>
+      <path d="M96 268 L164 268 L167 335 L93 335 Z" fill="url(#neckwood)" stroke="#2A1B10" stroke-width="1.5"/>
 
-      <!-- strings: basses off the left rollers, trebles off the right -->
+      <!-- strings: basses off the left posts, trebles off the right -->
       <g stroke="#E8D9B4" fill="none" stroke-linecap="round">
-        <path d="M104 210 L104 266 L103 335"   stroke-width="2.4"/>
-        <path d="M104 145 L114.4 266 L114 335" stroke-width="2.0"/>
-        <path d="M104 80  L124.8 266 L125 335" stroke-width="1.7"/>
-        <path d="M156 80  L135.2 266 L135 335" stroke-width="1.4"/>
-        <path d="M156 145 L145.6 266 L146 335" stroke-width="1.15"/>
-        <path d="M156 210 L156 266 L157 335"   stroke-width="0.95"/>
+        <path d="M108 210 L102 266 L101 335" stroke-width="2.4"/>
+        <path d="M108 145 L113 266 L112.5 335" stroke-width="2.0"/>
+        <path d="M108 80  L124 266 L124 335" stroke-width="1.7"/>
+        <path d="M152 80  L135 266 L135 335" stroke-width="1.4"/>
+        <path d="M152 145 L146 266 L146.5 335" stroke-width="1.15"/>
+        <path d="M152 210 L157 266 L158 335" stroke-width="0.95"/>
       </g>
 
       <!-- nut -->
-      <rect x="93" y="262" width="74" height="8" rx="3" fill="#EBDCC0"/>
+      <rect x="94" y="262" width="72" height="8" rx="3" fill="#EBDCC0"/>
     </svg>
 
     <% [["D3", 146.83, "side-left",  "row-1"], ["A2", 110.0,  "side-left",  "row-2"],
