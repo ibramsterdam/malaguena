@@ -1,6 +1,6 @@
 module ApplicationHelper
   def nav_items
-    [["Routines", routines_path], ["Tabs", tabs_path], ["Metronome", metronome_path], ["Tuner", tuner_path]]
+    [["Routines", routines_path], ["Metronome", metronome_path], ["Tuner", tuner_path]]
   end
 
   def format_duration(seconds)

@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Read-only for now: content is seeded through the console until
-  # editing grows real users and real requirements.
-  resources :tabs, only: %i[index show]
+  # editing grows real users and real requirements. Tabs have no UI of
+  # their own yet — they live inside routines until a proper song list
+  # arrives.
   resources :routines, only: %i[index show]
   get "metronome" => "metronome#show"
   get "tuner" => "tuner#show"
