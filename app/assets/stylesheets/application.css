@@ -307,6 +307,62 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
   white-space: nowrap;
 }
 
+/* ---------- tuner ---------- */
+
+.tuner { max-width: 420px; margin: 1.5rem auto; text-align: center; padding: 2rem 1.5rem; }
+
+.tuner-note {
+  font-family: var(--serif);
+  font-size: 4.5rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+.tuner-cents { color: var(--muted); min-height: 1.4em; margin-bottom: 1.2rem; }
+
+.tuner-gauge { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.4rem; }
+.tuner-mark { color: var(--muted); font-size: 1.1rem; }
+.tuner-track {
+  position: relative;
+  flex: 1;
+  height: 8px;
+  background: var(--panel-deep);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+}
+.tuner-center {
+  position: absolute;
+  left: 50%;
+  top: -5px;
+  width: 1px;
+  height: 16px;
+  background: var(--muted);
+}
+.tuner-needle {
+  --deflection: 0;
+  position: absolute;
+  top: -3px;
+  left: calc(50% + clamp(-50%, var(--deflection) * 50%, 50%) - 6px);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  transition: left 0.1s linear;
+}
+.tuner-needle.in-tune { background: #8FBB6C; box-shadow: 0 0 10px #8FBB6C; }
+
+.tuner-strings { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.2rem; }
+.tuner-string {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  padding: 0.2rem 0.65rem;
+}
+.tuner-string.near { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
+
+.tuner-status { font-variant-numeric: tabular-nums; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }

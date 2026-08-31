@@ -1,0 +1,26 @@
+<% content_for :title, "Tuner · Malagueña" %>
+<p class="eyebrow">Tune up</p>
+<h1>Tuner</h1>
+
+<div class="card tuner" data-controller="tuner">
+  <div class="tuner-note" data-tuner-target="note">—</div>
+  <div class="tuner-cents" data-tuner-target="cents"></div>
+
+  <div class="tuner-gauge" aria-hidden="true">
+    <span class="tuner-mark flat">♭</span>
+    <div class="tuner-track">
+      <i class="tuner-center"></i>
+      <i class="tuner-needle" data-tuner-target="needle"></i>
+    </div>
+    <span class="tuner-mark sharp">♯</span>
+  </div>
+
+  <div class="tuner-strings">
+    <% [["E2", 82.41], ["A2", 110.0], ["D3", 146.83], ["G3", 196.0], ["B3", 246.94], ["E4", 329.63]].each do |name, frequency| %>
+      <span class="tuner-string" data-tuner-target="string" data-frequency="<%= frequency %>"><%= name %></span>
+    <% end %>
+  </div>
+
+  <p class="muted tuner-status" data-tuner-target="status">Microphone is off.</p>
+  <button class="btn" data-tuner-target="toggle" data-action="tuner#toggle">Start tuning</button>
+</div>

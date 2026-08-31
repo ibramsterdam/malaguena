@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :tabs
   resources :routines
   get "metronome" => "metronome#show"
+  get "tuner" => "tuner#show"
 
   root "home#index"
 end
