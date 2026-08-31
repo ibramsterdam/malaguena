@@ -144,6 +144,14 @@ a { color: var(--accent); }
 }
 .btn-ghost:hover { border-color: var(--muted); filter: none; }
 
+/* Segmented cluster of related buttons: one pill, shared borders. */
+.btn-group { display: inline-flex; }
+.btn-group .btn { border-radius: 0; }
+.btn-group .btn:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+.btn-group .btn:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
+.btn-group .btn + .btn { margin-left: -1px; }
+.btn-group .btn:hover { position: relative; }
+
 .btn-danger { background: transparent; color: var(--danger); border-color: var(--line); }
 
 .toolbar { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; margin: 1.25rem 0; }
