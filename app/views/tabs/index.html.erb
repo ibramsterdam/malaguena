@@ -1,0 +1,22 @@
+<% content_for :title, "Tabs · Malagueña" %>
+<p class="eyebrow">Library</p>
+<h1>Tabs</h1>
+
+<div class="toolbar">
+  <span class="muted"><%= pluralize(@tabs.size, "tab") %></span>
+  <span class="spacer"></span>
+  <%= link_to "New tab", new_tab_path, class: "btn" %>
+</div>
+
+<% if @tabs.any? %>
+  <ul class="card-list">
+    <% @tabs.each do |tab| %>
+      <li class="card tab-row">
+        <%= link_to tab.title, tab, class: "tab-title" %>
+        <span class="muted"><%= tab.default_bpm %> BPM</span>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="muted">Nothing here yet — paste your first ASCII tab.</p>
+<% end %>

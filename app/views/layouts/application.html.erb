@@ -32,6 +32,9 @@
     </header>
 
     <main class="page">
+      <% if notice.present? %>
+        <p class="flash"><%= notice %></p>
+      <% end %>
       <%= yield %>
     </main>
   </body>
