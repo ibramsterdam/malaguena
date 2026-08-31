@@ -31,7 +31,7 @@
       </nav>
     </header>
 
-    <main class="page">
+    <main class="page <%= yield :page_class %>">
       <% if notice.present? %>
         <p class="flash"><%= notice %></p>
       <% end %>
