@@ -4,8 +4,6 @@
 
 <div class="toolbar">
   <span class="muted"><%= pluralize(@tabs.size, "tab") %></span>
-  <span class="spacer"></span>
-  <%= link_to "New tab", new_tab_path, class: "btn" %>
 </div>
 
 <% if @tabs.any? %>

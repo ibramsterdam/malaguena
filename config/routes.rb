@@ -4,8 +4,10 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  resources :tabs
-  resources :routines
+  # Read-only for now: content is seeded through the console until
+  # editing grows real users and real requirements.
+  resources :tabs, only: %i[index show]
+  resources :routines, only: %i[index show]
   get "metronome" => "metronome#show"
   get "tuner" => "tuner#show"
 

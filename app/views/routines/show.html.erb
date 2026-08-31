@@ -57,10 +57,6 @@
       <div class="toolbar">
         <button class="btn player-toggle" data-routine-run-target="toggle" data-action="routine-run#toggle">Start practice</button>
         <button class="btn btn-ghost" data-action="routine-run#skip">Skip segment</button>
-        <span class="spacer"></span>
-        <%= link_to "Edit", edit_routine_path(@routine), class: "muted" %>
-        <%= button_to "Delete", @routine, method: :delete, class: "btn btn-danger",
-              data: { turbo_confirm: "Delete #{@routine.name}?" } %>
       </div>
     </section>
   </div>

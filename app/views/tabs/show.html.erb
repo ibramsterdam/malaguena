@@ -19,9 +19,6 @@
 </div>
 
 <div class="toolbar">
-  <%= link_to "Edit", edit_tab_path(@tab), class: "btn-ghost btn" %>
-  <%= button_to "Delete", @tab, method: :delete, class: "btn btn-danger",
-        data: { turbo_confirm: "Delete #{@tab.title}?" } %>
   <span class="spacer"></span>
   <%= link_to "All tabs", tabs_path, class: "muted" %>
 </div>
