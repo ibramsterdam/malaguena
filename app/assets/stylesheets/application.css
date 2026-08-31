@@ -296,8 +296,14 @@ pre.tab-sheet {
 .play-bar-bpm small { font-size: 0.75rem; color: var(--muted); font-family: var(--sans); font-weight: 400; }
 .play-bar .metro-dots { margin: 0; }
 /* Lift the footer clear of the fixed bar, so the end of the page is
-   still the end of the page. */
-body:has(.play-bar) .site-footer { margin-bottom: calc(4.4rem + env(safe-area-inset-bottom)); }
+   still the end of the page. The bar publishes its measured height
+   (it wraps to more rows on narrow screens). */
+body:has(.play-bar) .site-footer { margin-bottom: calc(var(--play-bar-height, 4.4rem) + 0.5rem); }
+@media (max-width: 700px) {
+  .play-bar { gap: 0.5rem; padding-top: 0.5rem; }
+  .play-bar .btn { padding: 0.45rem 0.85rem; font-size: 0.8rem; }
+  .play-bar-bpm { font-size: 1.15rem; }
+}
 @media (max-width: 540px) {
   .play-bar { gap: 0.6rem; }
   .play-bar-label { display: none; }
@@ -401,7 +407,7 @@ body:has(.play-bar) .site-footer { margin-bottom: calc(4.4rem + env(safe-area-in
    whatever height is left after the heading, dials and toolbar, and
    scrolls within itself — the whole player fits one screen. */
 .player-main .engraved {
-  max-height: clamp(220px, calc(100dvh - 380px), 640px);
+  max-height: clamp(200px, calc(100dvh - 310px - var(--play-bar-height, 70px)), 640px);
   overflow-y: auto;
 }
 
