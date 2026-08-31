@@ -223,8 +223,6 @@ pre.tab-sheet {
   pointer-events: none;
 }
 
-.tab-hint { font-size: 0.8rem; margin-top: 0.6rem; }
-
 .tab-playhead {
   position: absolute;
   width: 1ch;
