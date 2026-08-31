@@ -92,11 +92,29 @@ export default class extends Controller {
         system.push(line)
       } else {
         flushSystem()
-        out.push(line)
+        out.push(...this.wrapText(line, maxChars))
       }
     })
     flushSystem()
     return out.join("\n")
+  }
+
+  // Prose lines (section labels, instructions) word-wrap to the same
+  // width budget as the music, so they can't force a sideways scroll.
+  wrapText(line, maxChars) {
+    if (line.length <= maxChars) return [line]
+    const rows = []
+    let current = ""
+    line.split(" ").forEach(word => {
+      if (current && current.length + 1 + word.length > maxChars) {
+        rows.push(current)
+        current = word
+      } else {
+        current = current ? `${current} ${word}` : word
+      }
+    })
+    if (current) rows.push(current)
+    return rows
   }
 
   wrapSystem(lines, maxChars) {
