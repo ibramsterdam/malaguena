@@ -9,7 +9,8 @@ export default class extends Controller {
   static values = {
     bpm: { type: Number, default: 80 },
     beatsPerBar: { type: Number, default: 4 },
-    accent: { type: Boolean, default: true }
+    accent: { type: Boolean, default: true },
+    countIn: { type: Boolean, default: false }
   }
 
   static LOOKAHEAD_MS = 25
@@ -47,7 +48,10 @@ export default class extends Controller {
     if (this.running) return
     this.audioContext ||= new (window.AudioContext || window.webkitAudioContext)()
     this.audioContext.resume()
-    this.beat = 0
+    // With a count-in, one silent-playhead bar of softer clicks (negative
+    // beats) runs before beat zero.
+    this.beat = this.countInValue ? -this.beatsPerBarValue : 0
+    if (this.countInValue) this.showCountOverlay()
     this.nextBeatTime = this.audioContext.currentTime + 0.08
     this.timer = setInterval(() => this.schedule(), this.constructor.LOOKAHEAD_MS)
     this.startCountdown()
@@ -59,6 +63,7 @@ export default class extends Controller {
     clearInterval(this.timer)
     clearInterval(this.countdown)
     this.countdown = null
+    this.hideCountOverlay()
     this.running = false
     if (this.hasDotsTarget) [...this.dotsTarget.children].forEach(dot => dot.classList.remove("hit"))
     this.render()
@@ -79,11 +84,12 @@ export default class extends Controller {
   }
 
   click(beat, time) {
-    const accent = this.accentValue && beat % this.beatsPerBarValue === 0
+    const countIn = beat < 0
+    const accent = !countIn && this.accentValue && beat % this.beatsPerBarValue === 0
     const osc = this.audioContext.createOscillator()
     const gain = this.audioContext.createGain()
-    osc.frequency.value = accent ? 1244 : 932
-    gain.gain.setValueAtTime(accent ? 0.5 : 0.32, time)
+    osc.frequency.value = countIn ? 700 : accent ? 1244 : 932
+    gain.gain.setValueAtTime(countIn ? 0.22 : accent ? 0.5 : 0.32, time)
     gain.gain.exponentialRampToValueAtTime(0.001, time + 0.05)
     osc.connect(gain).connect(this.audioContext.destination)
     osc.start(time)
@@ -95,9 +101,37 @@ export default class extends Controller {
     const delay = Math.max(0, (time - this.audioContext.currentTime) * 1000)
     setTimeout(() => {
       if (!this.running) return
+      if (beat < 0) {
+        this.updateCount(-beat)
+        return
+      }
+      this.hideCountOverlay()
       window.dispatchEvent(new CustomEvent("metronome:beat", { detail: { beat, bpm: this.bpmValue } }))
       this.flash(beat)
     }, delay)
+  }
+
+  // ----- count-in overlay -----
+
+  showCountOverlay() {
+    this.hideCountOverlay()
+    this.countOverlay = document.createElement("div")
+    this.countOverlay.className = "count-in"
+    document.body.appendChild(this.countOverlay)
+  }
+
+  updateCount(number) {
+    if (!this.countOverlay) return
+    this.countOverlay.textContent = number
+    this.countOverlay.animate(
+      [{ opacity: 1, transform: "scale(1.2)" }, { opacity: 0.75, transform: "scale(1)" }],
+      { duration: 280, easing: "ease-out" }
+    )
+  }
+
+  hideCountOverlay() {
+    this.countOverlay?.remove()
+    this.countOverlay = null
   }
 
   flash(beat) {

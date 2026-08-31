@@ -456,6 +456,23 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
 .metro-beats { display: flex; gap: 0.4rem; }
 .metro-beats .btn.active { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 .btn-ghost.active { border-color: var(--accent); color: var(--accent); }
+
+/* Count-in: one bar of soft clicks with a big number over the page
+   before the playhead starts walking. */
+.count-in {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  font-family: var(--serif);
+  font-size: clamp(5rem, 18vw, 9rem);
+  font-weight: 600;
+  color: var(--accent);
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+}
 .metro-extra input[type="number"] { width: 5.5rem; text-align: center; }
 .metro-timer-left { font-size: 0.8rem; font-variant-numeric: tabular-nums; min-height: 1.2em; }
 

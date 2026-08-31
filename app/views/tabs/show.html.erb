@@ -13,7 +13,8 @@
 
 <div class="play-bar" data-controller="metronome transport"
      data-metronome-bpm-value="<%= @tab.default_bpm %>"
-     data-metronome-beats-per-bar-value="<%= @tab.beats_per_bar %>">
+     data-metronome-beats-per-bar-value="<%= @tab.beats_per_bar %>"
+     data-metronome-count-in-value="true">
   <span class="play-bar-label">Play along</span>
   <span class="play-bar-bpm"><span data-metronome-target="bpm"><%= @tab.default_bpm %></span> <small>BPM</small></span>
   <div class="metro-dots play-bar-dots" data-metronome-target="dots" aria-hidden="true"></div>
