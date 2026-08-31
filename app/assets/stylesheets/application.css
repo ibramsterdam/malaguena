@@ -333,12 +333,16 @@ body:has(.play-bar) .site-footer { margin-bottom: calc(var(--play-bar-height, 4.
   margin-top: 1.25rem;
   align-items: start;
 }
+/* Grid items refuse to shrink below their content unless told to; long
+   nowrap segment rows must truncate, never widen the page. */
+.player-grid > * { min-width: 0; }
 @media (max-width: 700px) {
   h1 { font-size: 1.6rem; margin: 0.2rem 0 0.4rem; }
   .player-status { margin: 0 0 0.5rem; }
   .player-grid { grid-template-columns: 1fr; gap: 0.75rem; margin-top: 0.75rem; }
   .segment-toc-row { padding: 0.3rem 0.5rem; }
   .segment-toc-title { font-size: 0.92rem; }
+  .segment-toc-details { font-size: 0.75rem; }
 }
 
 /* Table-of-contents style segment list: title, dotted leader, details.
@@ -371,6 +375,7 @@ body:has(.play-bar) .site-footer { margin-bottom: calc(var(--play-bar-height, 4.
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
 }
 .segment-toc-dots {
   flex: 1;
