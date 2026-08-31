@@ -20,6 +20,7 @@ export default class extends Controller {
 
   disconnect() {
     window.removeEventListener("metronome:beat", this.onBeat)
+    cancelAnimationFrame(this.glide)
   }
 
   // Finds the systems (groups of consecutive string lines) and, within each,
@@ -82,6 +83,23 @@ export default class extends Controller {
     const barHeight = document.querySelector(".play-bar")?.offsetHeight ?? 0
     const visible = window.innerHeight - barHeight
     const top = rect.top + window.scrollY - (visible - rect.height) / 2
-    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" })
+    this.glideTo(Math.max(0, top))
+  }
+
+  // The browser's own smooth scroll is a quick ~300ms lurch; a longer
+  // eased glide keeps the page turn from twitching mid-bar.
+  glideTo(target, duration = 800) {
+    cancelAnimationFrame(this.glide)
+    const from = window.scrollY
+    const distance = target - from
+    if (Math.abs(distance) < 2) return
+    const startedAt = performance.now()
+    const ease = t => t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2
+    const step = now => {
+      const progress = Math.min(1, (now - startedAt) / duration)
+      window.scrollTo(0, from + distance * ease(progress))
+      if (progress < 1) this.glide = requestAnimationFrame(step)
+    }
+    this.glide = requestAnimationFrame(step)
   }
 }
