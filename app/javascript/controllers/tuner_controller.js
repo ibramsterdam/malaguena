@@ -88,9 +88,12 @@ export default class extends Controller {
 
   loop() {
     if (!this.listening) return
-    this.analyser.getFloatTimeDomainData(this.buffer)
-    const pitch = this.detectPitch(this.buffer, this.audioContext.sampleRate)
-    if (pitch) this.track(pitch)
+    // Deaf while our own bell rings, or the microphone tunes the tuner.
+    if (performance.now() >= (this.muteUntil || 0)) {
+      this.analyser.getFloatTimeDomainData(this.buffer)
+      const pitch = this.detectPitch(this.buffer, this.audioContext.sampleRate)
+      if (pitch) this.track(pitch)
+    }
     this.frame = requestAnimationFrame(() => this.loop())
   }
 
@@ -100,6 +103,9 @@ export default class extends Controller {
     const nearest = this.strings.reduce((best, string) =>
       Math.abs(Math.log2(frequency / string.frequency)) < Math.abs(Math.log2(frequency / best.frequency)) ? string : best
     )
+    // More than 150 cents from every string is not a string being tuned —
+    // it's a harmonic, the room, or our own bell. Ignore it.
+    if (Math.abs(1200 * Math.log2(frequency / nearest.frequency)) > 150) return
     if (nearest !== this.selected) {
       this.candidate = this.candidate?.string === nearest
         ? { string: nearest, frames: this.candidate.frames + 1 }
@@ -200,6 +206,8 @@ export default class extends Controller {
 
   // A short two-partial ding, rung once when the string settles in tune.
   bell() {
+    this.muteUntil = performance.now() + 1100
+    this.recent = []
     const time = this.audioContext.currentTime
     ;[[1318.5, 0.25], [1975.5, 0.1]].forEach(([frequency, level]) => {
       const osc = this.audioContext.createOscillator()

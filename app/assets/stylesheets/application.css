@@ -388,8 +388,8 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
 .tuner-art {
   margin: 0;
   font-family: var(--mono);
-  font-size: 0.72rem;
-  line-height: 1.3;
+  font-size: 0.8rem;
+  line-height: 1.25;
   color: var(--muted);
   text-align: left;
   user-select: none;

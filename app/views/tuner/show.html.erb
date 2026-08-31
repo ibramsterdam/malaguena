@@ -23,17 +23,25 @@
                 data-name="<%= name %>" data-frequency="<%= frequency %>"><%= name.first %></button>
       <% end %>
     </div>
-    <pre class="tuner-art" aria-hidden="true">  .=========.
- /           \
-| (o)     (o) |
-|             |
-| (o)     (o) |
-|             |
-| (o)     (o) |
- \           /
-  `-._____.-'
-     | | | |
-     | | | |</pre>
+    <pre class="tuner-art" aria-hidden="true">    .==================.
+   /                    \
+  |    .------------.    |
+=(o)==(|            |)==(o)=
+  |    |            |    |
+  |    |            |    |
+=(o)==(|            |)==(o)=
+  |    |            |    |
+  |    |            |    |
+=(o)==(|            |)==(o)=
+  |    `------------'    |
+   \                    /
+    `-.______________.-'
+       | | |  | | |
+       | | |  | | |
+      ================
+       | | |  | | |
+       | | |  | | |
+       | | |  | | |</pre>
     <div class="tuner-side">
       <% [["G3", 196.0], ["B3", 246.94], ["E4", 329.63]].each do |name, frequency| %>
         <button type="button" class="tuner-string" aria-label="Tune the <%= name %> string"
