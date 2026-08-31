@@ -9,6 +9,7 @@ export default class extends Controller {
   connect() {
     this.columns = this.parse(this.sheetTarget.textContent)
     this.pointer = -1
+    this.currentRow = null
     this.onBeat = () => this.advance()
     window.addEventListener("metronome:beat", this.onBeat)
     this.playhead = document.createElement("span")
@@ -68,5 +69,17 @@ export default class extends Controller {
     const container = this.element
     const target = this.playhead.offsetLeft - container.clientWidth / 2
     container.scrollTo({ left: Math.max(0, target), behavior: "smooth" })
+    if (note.row !== this.currentRow) {
+      this.currentRow = note.row
+      this.scrollPageToPlayhead()
+    }
+  }
+
+  // Hands are on the guitar: when the playhead lands on a new system,
+  // bring that system to the middle of the screen on its own.
+  scrollPageToPlayhead() {
+    const rect = this.playhead.getBoundingClientRect()
+    const top = rect.top + window.scrollY - (window.innerHeight - rect.height) / 2
+    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" })
   }
 }
