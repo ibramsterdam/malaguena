@@ -5,7 +5,7 @@ import { Controller } from "@hotwired/stimulus"
 // a few steady frames of another string slides the selection over with a
 // little pulse. Holding within five cents rings a short bell of completion.
 export default class extends Controller {
-  static targets = ["note", "cents", "needle", "status", "toggle", "string"]
+  static targets = ["note", "cents", "needle", "status", "string"]
 
   // Ten cents is comfortably inside what an ear notices while playing —
   // guitars, rooms and laptop microphones are not lab equipment, so good
@@ -22,14 +22,11 @@ export default class extends Controller {
     this.selected = null
     this.candidate = null
     this.recent = []
+    this.start()
   }
 
   disconnect() {
     this.stop()
-  }
-
-  async toggle() {
-    this.listening ? this.stop() : await this.start()
   }
 
   async select(event) {
@@ -69,8 +66,8 @@ export default class extends Controller {
     this.analyser.fftSize = 2048
     this.audioContext.createMediaStreamSource(this.stream).connect(this.analyser)
     this.buffer = new Float32Array(this.analyser.fftSize)
+    this.audioContext.resume()
     this.listening = true
-    this.toggleTarget.textContent = "Stop"
     this.statusTarget.textContent = "Play a string…"
     this.loop()
   }
@@ -81,9 +78,6 @@ export default class extends Controller {
     this.stream?.getTracks().forEach(track => track.stop())
     this.audioContext?.close()
     this.audioContext = null
-    this.toggleTarget.textContent = "Start tuning"
-    this.statusTarget.textContent = "Microphone is off."
-    this.needleTarget.classList.remove("in-tune")
   }
 
   loop() {
