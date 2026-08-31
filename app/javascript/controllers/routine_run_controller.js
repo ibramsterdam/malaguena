@@ -38,7 +38,7 @@ export default class extends Controller {
   }
 
   resume() {
-    this.context ||= new (window.AudioContext || window.webkitAudioContext)()
+    this.audioContext ||= new (window.AudioContext || window.webkitAudioContext)()
     this.state = "running"
     this.endAt = performance.now() + this.remainingMs
     this.timer = setInterval(() => this.tick(), 250)
@@ -113,16 +113,16 @@ export default class extends Controller {
   }
 
   chime(final = false) {
-    if (!this.context) return
+    if (!this.audioContext) return
     const notes = final ? [659.25, 880, 1318.5] : [659.25, 880]
     notes.forEach((frequency, i) => {
-      const time = this.context.currentTime + i * 0.18
-      const osc = this.context.createOscillator()
-      const gain = this.context.createGain()
+      const time = this.audioContext.currentTime + i * 0.18
+      const osc = this.audioContext.createOscillator()
+      const gain = this.audioContext.createGain()
       osc.frequency.value = frequency
       gain.gain.setValueAtTime(0.25, time)
       gain.gain.exponentialRampToValueAtTime(0.001, time + 0.4)
-      osc.connect(gain).connect(this.context.destination)
+      osc.connect(gain).connect(this.audioContext.destination)
       osc.start(time)
       osc.stop(time + 0.45)
     })

@@ -248,6 +248,7 @@ pre.tab-sheet {
 
 .dials { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
 .dial { flex: 1 1 160px; }
+.dials .card + .card { margin-top: 0; }
 .dial-label {
   display: block;
   font-size: 0.62rem;
@@ -264,8 +265,7 @@ pre.tab-sheet {
   font-variant-numeric: tabular-nums;
 }
 .dial-big small { font-size: 0.8rem; color: var(--muted); font-family: var(--sans); font-weight: 400; }
-.dial-dots { justify-content: flex-start; margin: 0.6rem 0 0.8rem; }
-.dial-toggle { padding: 0.3rem 0.9rem; font-size: 0.75rem; }
+.dial-dots { justify-content: flex-start; margin: 0.6rem 0 0; }
 
 .pane-calm { color: var(--muted); font-family: var(--serif); font-size: 1.1rem; padding: 2rem 1.5rem; text-align: center; }
 
