@@ -280,13 +280,11 @@ body:has(.play-bar) .site-footer { margin-bottom: calc(4.4rem + env(safe-area-in
 .segment-row { margin-bottom: 0.8rem; }
 .segment-row-foot { display: flex; justify-content: flex-end; margin-top: 0.4rem; }
 
-.segment-line { display: flex; gap: 1rem; align-items: baseline; }
-.segment-line strong { font-family: var(--serif); font-weight: 600; font-size: 1.05rem; margin-right: 0.5rem; }
 .segment-index {
   font-family: var(--serif);
   color: var(--accent);
-  font-size: 1.2rem;
-  min-width: 1.2rem;
+  font-size: 1.1rem;
+  min-width: 1.1rem;
   text-align: right;
 }
 
@@ -296,18 +294,51 @@ body:has(.play-bar) .site-footer { margin-bottom: calc(4.4rem + env(safe-area-in
 
 .player-grid {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 300px 1fr;
   gap: 1.25rem;
   margin-top: 1.25rem;
   align-items: start;
 }
 @media (max-width: 700px) {
   .player-grid { grid-template-columns: 1fr; }
-  .player-segments { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
 }
 
-.player-segments { margin: 0; }
-.player-segments .segment-line.active { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+/* Table-of-contents style segment list: title, dotted leader, details.
+   Every row is a button that restarts practice from that segment. */
+.segment-toc { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.25rem; }
+.segment-toc-row {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  padding: 0.5rem 0.6rem;
+  background: none;
+  border: none;
+  border-radius: var(--radius);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.segment-toc-row:hover { background: var(--panel); }
+.segment-toc-row.active { background: var(--panel); box-shadow: inset 2px 0 0 var(--accent); }
+.segment-toc-row.active .segment-toc-title { color: var(--accent); }
+.segment-toc-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+.segment-toc-dots {
+  flex: 1;
+  min-width: 1.2rem;
+  border-bottom: 2px dotted var(--line);
+  transform: translateY(-0.28em);
+}
+.segment-toc-details { color: var(--muted); font-size: 0.8rem; white-space: nowrap; }
 
 .dials { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
 .dial { flex: 1 1 160px; }

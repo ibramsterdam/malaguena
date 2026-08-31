@@ -64,6 +64,18 @@ export default class extends Controller {
     this.advance()
   }
 
+  // Tapping a segment restarts practice from the top of that segment.
+  jump(event) {
+    clearInterval(this.timer)
+    this.metronome.stop()
+    this.index = Number(event.params.index)
+    this.remainingMs = this.currentSegment.seconds * 1000
+    this.showSegment()
+    this.state = "paused"
+    this.resume()
+    this.renderClock()
+  }
+
   restart() {
     this.index = 0
     this.state = "idle"

@@ -12,19 +12,23 @@
 
   <div class="player-grid">
     <aside>
-      <ul class="card-list player-segments">
+      <ol class="segment-toc">
         <% @routine.segments.each_with_index do |segment, index| %>
-          <li class="card segment-line" data-routine-run-target="segment">
-            <span class="segment-index"><%= index + 1 %></span>
-            <span>
-              <strong><%= segment.label %></strong><br>
-              <span class="muted">
+          <li>
+            <button type="button" class="segment-toc-row" data-routine-run-target="segment"
+                    data-action="routine-run#jump" data-routine-run-index-param="<%= index %>">
+              <span class="segment-toc-title">
+                <span class="segment-index"><%= index + 1 %></span>
+                <%= segment.label %>
+              </span>
+              <span class="segment-toc-dots" aria-hidden="true"></span>
+              <span class="segment-toc-details">
                 <%= format_duration(segment.duration_seconds) %><% if segment.tab_practice? %> · <%= segment.effective_bpm %> BPM<% end %>
               </span>
-            </span>
+            </button>
           </li>
         <% end %>
-      </ul>
+      </ol>
     </aside>
 
     <section class="player-main">
