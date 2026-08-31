@@ -308,7 +308,11 @@ body:has(.play-bar) .site-footer { margin-bottom: calc(4.4rem + env(safe-area-in
   align-items: start;
 }
 @media (max-width: 700px) {
-  .player-grid { grid-template-columns: 1fr; }
+  h1 { font-size: 1.6rem; margin: 0.2rem 0 0.4rem; }
+  .player-status { margin: 0 0 0.5rem; }
+  .player-grid { grid-template-columns: 1fr; gap: 0.75rem; margin-top: 0.75rem; }
+  .segment-toc-row { padding: 0.3rem 0.5rem; }
+  .segment-toc-title { font-size: 0.92rem; }
 }
 
 /* Table-of-contents style segment list: title, dotted leader, details.
@@ -375,7 +379,7 @@ body:has(.play-bar) .site-footer { margin-bottom: calc(4.4rem + env(safe-area-in
    whatever height is left after the heading, dials and toolbar, and
    scrolls within itself — the whole player fits one screen. */
 .player-main .engraved {
-  max-height: clamp(220px, calc(100dvh - 480px), 560px);
+  max-height: clamp(220px, calc(100dvh - 380px), 640px);
   overflow-y: auto;
 }
 

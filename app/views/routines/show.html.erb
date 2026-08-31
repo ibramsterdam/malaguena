@@ -32,13 +32,6 @@
     </aside>
 
     <section class="player-main">
-      <div class="dials">
-        <div class="card dial">
-          <span class="dial-label">Time left</span>
-          <span class="dial-big" data-routine-run-target="clock">00:00</span>
-        </div>
-      </div>
-
       <% @routine.segments.each do |segment| %>
         <div data-routine-run-target="pane" hidden>
           <% if segment.tab_practice? && segment.tab %>
@@ -57,7 +50,7 @@
   </div>
 
   <div class="play-bar" data-controller="metronome transport" data-routine-run-target="metronome">
-    <span class="play-bar-label">Practice</span>
+    <span class="play-bar-bpm"><span data-routine-run-target="clock">00:00</span> <small>left</small></span>
     <span class="play-bar-bpm"><span data-metronome-target="bpm">80</span> <small>BPM</small></span>
     <div class="metro-dots play-bar-dots" data-metronome-target="dots" aria-hidden="true"></div>
     <button class="btn" data-routine-run-target="toggle" data-action="routine-run#toggle">Start practice</button>
