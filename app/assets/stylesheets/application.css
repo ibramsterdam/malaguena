@@ -1,0 +1,189 @@
+/* Malagueña — the Duende design system.
+   Rosewood ground, lacquer amber, serif for anything with a name. */
+
+:root {
+  --bg: #1D1410;
+  --panel: #2A1E16;
+  --panel-deep: #17100C;
+  --ink: #F1E7D8;
+  --muted: #A6907B;
+  --line: #3B2C20;
+  --accent: #E0A458;
+  --accent-ink: #241708;
+  --accent-soft: rgba(224, 164, 88, 0.16);
+  --danger: #C96A4A;
+  --radius: 6px;
+  --serif: "Iowan Old Style", Palatino, Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.55;
+  min-height: 100vh;
+}
+
+/* ---------- shell ---------- */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  padding: 0.9rem clamp(1rem, 4vw, 2rem);
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-nav { display: flex; gap: 1.1rem; flex-wrap: wrap; }
+.site-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 0.15rem 0;
+  border-bottom: 2px solid transparent;
+}
+.site-nav a:hover { color: var(--ink); }
+.site-nav a.current { color: var(--ink); border-bottom-color: var(--accent); }
+
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 1.75rem clamp(1rem, 4vw, 2rem) 4rem;
+}
+
+/* ---------- type ---------- */
+
+h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.15; text-wrap: balance; }
+h1 { font-size: clamp(1.7rem, 4vw, 2.3rem); margin: 0.5rem 0 1rem; }
+h2 { font-size: 1.35rem; margin: 2rem 0 0.75rem; }
+
+.eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0;
+}
+
+.muted { color: var(--muted); }
+a { color: var(--accent); }
+
+/* ---------- surfaces ---------- */
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.3rem;
+}
+
+.card + .card { margin-top: 0.8rem; }
+
+.card-list { display: grid; gap: 0.8rem; margin: 1.25rem 0; padding: 0; list-style: none; }
+
+.engraved {
+  background: var(--panel-deep);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  overflow-x: auto;
+}
+
+/* ---------- controls ---------- */
+
+.btn {
+  display: inline-block;
+  font: 700 0.85rem var(--sans);
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 0.5rem 1.2rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+  font-weight: 600;
+}
+.btn-ghost:hover { border-color: var(--muted); filter: none; }
+
+.btn-danger { background: transparent; color: var(--danger); border-color: var(--line); }
+
+.toolbar { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; margin: 1.25rem 0; }
+.toolbar .spacer { flex: 1; }
+
+/* ---------- forms ---------- */
+
+label { display: block; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.25rem; }
+
+input[type="text"], input[type="number"], select, textarea {
+  width: 100%;
+  background: var(--panel-deep);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.7rem;
+  font: inherit;
+}
+
+textarea.tab-input { font-family: var(--mono); font-size: 0.85rem; white-space: pre; min-height: 12rem; }
+
+.field { margin-bottom: 1rem; }
+.field-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+.field-row .field { flex: 1 1 140px; }
+
+.form-errors {
+  border: 1px solid var(--danger);
+  border-radius: var(--radius);
+  color: var(--danger);
+  padding: 0.7rem 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+}
+.form-errors ul { margin: 0.3rem 0 0; padding-left: 1.1rem; }
+
+/* ---------- flash ---------- */
+
+.flash {
+  border: 1px solid var(--accent);
+  background: var(--accent-soft);
+  border-radius: var(--radius);
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+}
+
+/* ---------- home ---------- */
+
+.home-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.9rem; margin-top: 1.5rem; }
+.home-cards .card { text-decoration: none; color: var(--ink); display: block; }
+.home-cards .card:hover { border-color: var(--accent); }
+.home-cards h3 { margin: 0 0 0.3rem; font-size: 1.1rem; }
+.home-cards p { margin: 0; color: var(--muted); font-size: 0.88rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
