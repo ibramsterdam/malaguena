@@ -1,4 +1,4 @@
-const CACHE = "malaguena-v1"
+const CACHE = "malaguena-v2"
 
 self.addEventListener("install", () => self.skipWaiting())
 
@@ -21,12 +21,18 @@ self.addEventListener("fetch", event => {
     event.respondWith(
       fetch(request)
         .then(response => stash(request, response))
-        .catch(() => caches.match(request).then(hit => hit || caches.match("/")))
+        .catch(() =>
+          caches.match(request)
+            .then(hit => hit || caches.match("/"))
+            .then(hit => hit || Response.error())
+        )
     )
   } else {
     // Fingerprinted assets never change: cache first.
     event.respondWith(
-      caches.match(request).then(hit => hit || fetch(request).then(response => stash(request, response)))
+      caches.match(request).then(hit =>
+        hit || fetch(request).then(response => stash(request, response)).catch(() => Response.error())
+      )
     )
   }
 })
