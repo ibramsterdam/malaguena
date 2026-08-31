@@ -8,7 +8,7 @@
 <div data-controller="routine-run" data-routine-run-segments-value="<%= segment_data.to_json %>">
   <p class="eyebrow">Routine · <%= format_duration(@routine.total_seconds) %></p>
   <h1><%= @routine.name %></h1>
-  <p class="muted player-status" data-routine-run-target="status">Ready when you are.</p>
+  <p class="muted player-status" data-routine-run-target="status"><%= @routine.segments.first.label %> · segment 1 of <%= @routine.segments.size %></p>
 
   <div class="player-grid">
     <aside>
@@ -53,7 +53,7 @@
     <span class="play-bar-bpm"><span data-routine-run-target="clock">00:00</span> <small>left</small></span>
     <span class="play-bar-bpm"><span data-metronome-target="bpm">80</span> <small>BPM</small></span>
     <div class="metro-dots play-bar-dots" data-metronome-target="dots" aria-hidden="true"></div>
-    <button class="btn" data-routine-run-target="toggle" data-action="routine-run#toggle">Start practice</button>
+    <button class="btn" data-routine-run-target="toggle" data-action="routine-run#toggle">Start</button>
     <span class="btn-group">
       <button class="btn btn-ghost" title="Restart" aria-label="Restart"
               data-action="transport#send" data-transport-action-param="restart">⟲</button>

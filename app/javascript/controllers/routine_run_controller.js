@@ -11,6 +11,7 @@ export default class extends Controller {
     this.state = "idle"
     this.remainingMs = this.currentSegment.seconds * 1000
     this.showSegment()
+    this.render()
     this.renderClock()
   }
 
@@ -145,7 +146,7 @@ export default class extends Controller {
   }
 
   render() {
-    const labels = { idle: "Start practice", running: "Pause", paused: "Start", done: "Start again" }
+    const labels = { idle: "Start", running: "Pause", paused: "Start", done: "Start again" }
     this.toggleTarget.textContent = labels[this.state]
     if (this.state === "done") {
       this.statusTarget.textContent = "¡Olé! Practice complete."
