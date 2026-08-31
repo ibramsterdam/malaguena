@@ -23,25 +23,45 @@
                 data-name="<%= name %>" data-frequency="<%= frequency %>"><%= name.first %></button>
       <% end %>
     </div>
-    <pre class="tuner-art" aria-hidden="true">    .==================.
-   /                    \
-  |    .------------.    |
-=(o)==(|            |)==(o)=
-  |    |            |    |
-  |    |            |    |
-=(o)==(|            |)==(o)=
-  |    |            |    |
-  |    |            |    |
-=(o)==(|            |)==(o)=
-  |    `------------'    |
-   \                    /
-    `-.______________.-'
-       | | |  | | |
-       | | |  | | |
-      ================
-       | | |  | | |
-       | | |  | | |
-       | | |  | | |</pre>
+    <svg class="tuner-art" viewBox="0 0 200 340" aria-hidden="true">
+      <!-- head plate, gently tapering, with a dipped crown -->
+      <path d="M45 262 L35 45 Q35 22 55 22 L82 22 Q100 31 118 22 L145 22 Q165 22 165 45 L155 262 Z"
+            fill="#33241A" stroke="var(--line)" stroke-width="2" stroke-linejoin="round"/>
+      <!-- slots -->
+      <rect x="58" y="52" width="34" height="186" rx="15" fill="var(--panel-deep)" stroke="var(--line)" stroke-width="1.5"/>
+      <rect x="108" y="52" width="34" height="186" rx="15" fill="var(--panel-deep)" stroke="var(--line)" stroke-width="1.5"/>
+      <!-- axles reaching in from the tuning machines -->
+      <g stroke="#4A3524" stroke-width="3.5" stroke-linecap="round">
+        <line x1="39" y1="80"  x2="75" y2="80"/>
+        <line x1="41" y1="145" x2="75" y2="145"/>
+        <line x1="43" y1="210" x2="75" y2="210"/>
+        <line x1="161" y1="80"  x2="125" y2="80"/>
+        <line x1="159" y1="145" x2="125" y2="145"/>
+        <line x1="157" y1="210" x2="125" y2="210"/>
+      </g>
+      <!-- rollers -->
+      <g fill="#4A3524" stroke="var(--line)" stroke-width="1">
+        <rect x="60" y="73" width="30" height="14" rx="6"/>
+        <rect x="60" y="138" width="30" height="14" rx="6"/>
+        <rect x="60" y="203" width="30" height="14" rx="6"/>
+        <rect x="110" y="73" width="30" height="14" rx="6"/>
+        <rect x="110" y="138" width="30" height="14" rx="6"/>
+        <rect x="110" y="203" width="30" height="14" rx="6"/>
+      </g>
+      <!-- neck -->
+      <path d="M66 273 L134 273 L136 335 L64 335 Z" fill="#33241A" stroke="var(--line)" stroke-width="1.5"/>
+      <!-- strings: basses off the left rollers, trebles off the right -->
+      <g stroke="#C9B893" fill="none" stroke-linecap="round">
+        <path d="M75 210 L78 267 L77 335" stroke-width="2.2"/>
+        <path d="M75 145 L87 267 L86.5 335" stroke-width="1.9"/>
+        <path d="M75 80 L96 267 L96 335" stroke-width="1.6"/>
+        <path d="M125 80 L105 267 L105 335" stroke-width="1.3"/>
+        <path d="M125 145 L114 267 L114.5 335" stroke-width="1.1"/>
+        <path d="M125 210 L123 267 L124 335" stroke-width="0.9"/>
+      </g>
+      <!-- nut -->
+      <rect x="67" y="265" width="66" height="7" rx="2.5" fill="#D8C9A8"/>
+    </svg>
     <div class="tuner-side">
       <% [["G3", 196.0], ["B3", 246.94], ["E4", 329.63]].each do |name, frequency| %>
         <button type="button" class="tuner-string" aria-label="Tune the <%= name %> string"
