@@ -13,7 +13,6 @@ export default class extends Controller {
   connect() {
     this.systems = []
     this.columns = this.parse(this.sheetTarget.textContent)
-    this.barIndexes = this.columns.flatMap((note, index) => (note.barStart ? [index] : []))
     this.pointer = -1
     this.currentRow = null
     this.loop = null
@@ -73,13 +72,10 @@ export default class extends Controller {
     const width = Math.max(...system.lines.map(line => line.length))
     this.systems.push({ row: system.start, height: system.lines.length, width })
     let previousHadNote = false
-    let sawBar = false
     for (let column = 0; column < width; column++) {
-      if (system.lines.some(line => line[column] === "|")) sawBar = true
       const hasNote = system.lines.some(line => /\d/.test(line[column] || ""))
       if (hasNote && !previousHadNote) {
-        columns.push({ row: system.start, height: system.lines.length, column, barStart: sawBar })
-        sawBar = false
+        columns.push({ row: system.start, height: system.lines.length, column })
       }
       previousHadNote = hasNote
     }
@@ -105,19 +101,12 @@ export default class extends Controller {
 
   back() {
     if (this.columns.length === 0) return
-    const current = Math.max(0, this.pointer)
-    let target = 0
-    for (const index of this.barIndexes) {
-      if (index < current) target = index
-      else break
-    }
-    this.jumpTo(target)
+    this.jumpTo(Math.max(0, this.pointer - 1))
   }
 
   forward() {
     if (this.columns.length === 0) return
-    const target = this.barIndexes.find(index => index > this.pointer)
-    this.jumpTo(target ?? (this.loop ? this.loop.a : 0))
+    this.jumpTo(Math.min(this.columns.length - 1, this.pointer + 1))
   }
 
   restart() {
