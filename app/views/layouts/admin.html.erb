@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Admin · Malagueña" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#1D1410">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <%= link_to "Malagueña", admin_root_path, class: "brand" %>
+      <span class="admin-badge">Admin</span>
+      <nav class="site-nav">
+        <%= link_to "Tabs", admin_tabs_path, class: ("current" if controller_name == "tabs") %>
+        <%= link_to "Routines", admin_routines_path, class: ("current" if controller_name == "routines") %>
+      </nav>
+      <span class="spacer"></span>
+      <%= link_to "Exit admin", root_path, class: "muted admin-exit" %>
+    </header>
+
+    <main class="page">
+      <% if notice.present? %>
+        <p class="flash"><%= notice %></p>
+      <% end %>
+      <% if alert.present? %>
+        <p class="flash flash-alert"><%= alert %></p>
+      <% end %>
+      <%= yield %>
+    </main>
+  </body>
+</html>

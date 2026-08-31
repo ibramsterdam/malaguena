@@ -1,7 +1,15 @@
 class Tab < ApplicationRecord
+  has_many :segments, dependent: :restrict_with_error
+
   validates :title, presence: true
   validates :body, presence: true
   validates :default_bpm, numericality: { only_integer: true, in: 20..300 }
+
+  # Total bars across all systems: one counted line per system (the high
+  # e string opens each one), bars = pipes minus the opening one.
+  def bar_count
+    body.lines.select { |line| line.start_with?("e|") }.sum { |line| line.count("|") - 1 }
+  end
 
   # The time signature, inferred from the tab itself: the player treats
   # every column of fret numbers as one beat, so the note columns inside

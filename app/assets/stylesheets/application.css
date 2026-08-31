@@ -620,3 +620,125 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ---------- admin ---------- */
+
+.admin-badge {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 99px;
+  padding: 0.15rem 0.6rem;
+}
+.site-header .spacer { flex: 1; }
+.admin-exit { font-size: 0.85rem; text-decoration: none; }
+
+.flash-alert { border-color: var(--danger); background: transparent; color: var(--danger); }
+
+.admin-table-head, .admin-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 110px 60px minmax(0, 220px) 44px;
+  gap: 0.8rem;
+  align-items: center;
+}
+.admin-row-routines, .admin-list .admin-row-routines + .admin-row-routines {
+  grid-template-columns: minmax(0, 1fr) 130px 90px 44px;
+}
+.admin-table-head { font-size: 0.75rem; color: var(--muted); padding: 0 1.3rem; margin-top: 1rem; }
+.admin-list { margin-top: 0.5rem; }
+.admin-row-title { font-family: var(--serif); font-size: 1.05rem; color: var(--ink); text-decoration: none; }
+.admin-row-title:hover { color: var(--accent); }
+.admin-used-in { font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.admin-delete { padding: 0.3rem 0.65rem; font-size: 0.8rem; color: var(--danger); }
+.admin-row form { margin: 0; }
+
+.admin-import { margin-bottom: 1rem; }
+
+/* ---------- grid editor ---------- */
+
+.grid-editor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem 1.6rem;
+  align-items: flex-start;
+  padding: 1.4rem;
+  outline: none;
+  margin-bottom: 0.9rem;
+}
+.grid-editor:focus-visible { border-color: var(--accent); }
+
+.ge-label {
+  flex-basis: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  align-self: flex-start;
+  width: fit-content;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  padding: 0.25rem 0.9rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: #DCCDB4;
+}
+
+.ge-bar { display: flex; flex-direction: column; gap: 0.45rem; }
+.ge-bar-head { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: var(--muted); }
+.ge-icon {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0.1rem 0.25rem;
+  border-radius: 4px;
+}
+.ge-icon:hover { color: var(--ink); background: var(--panel); }
+
+.ge-grid { display: grid; gap: 6px; align-items: center; }
+.ge-string { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); }
+.ge-cell {
+  height: 34px;
+  border-radius: 5px;
+  background: var(--panel-deep);
+  border: 1px solid #2A1B10;
+  color: var(--ink);
+  font: 600 0.85rem var(--mono);
+  cursor: pointer;
+  padding: 0;
+}
+.ge-cell.filled { background: var(--panel); border-color: var(--line); }
+.ge-cell.selected {
+  background: var(--accent-soft);
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.fret-pad { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+.fret-pad .btn { padding: 0.5rem 0; min-width: 44px; font-family: var(--mono); }
+.fret-pad-clear { color: var(--danger); }
+.fret-pad-next { color: var(--accent); }
+
+.admin-ascii { margin-bottom: 1rem; }
+.admin-ascii summary { cursor: pointer; font-size: 0.85rem; }
+.admin-ascii pre { margin-top: 0.6rem; overflow-x: auto; }
+
+.admin-segments-head, .admin-segment-row {
+  display: grid;
+  grid-template-columns: 56px 150px minmax(0, 1fr) 110px 130px 44px;
+  gap: 0.8rem;
+  align-items: center;
+}
+.admin-segments-head { font-size: 0.75rem; color: var(--muted); padding: 0 1.3rem; margin-top: 1.25rem; }
+.admin-segment-row { margin-top: 0.6rem; padding: 0.7rem 1.3rem; }
+.admin-segment-row + .admin-segment-row { margin-top: 0.6rem; }
+.admin-segment-move { display: flex; gap: 0.2rem; }
+
+@media (max-width: 700px) {
+  .admin-table-head, .admin-segments-head { display: none; }
+  .admin-row, .admin-segment-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

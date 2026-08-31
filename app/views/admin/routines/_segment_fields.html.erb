@@ -1,0 +1,13 @@
+<div class="card admin-segment-row" data-segments-editor-target="row">
+  <div class="admin-segment-move">
+    <button type="button" class="ge-icon" title="Move up" data-action="segments-editor#up">↑</button>
+    <button type="button" class="ge-icon" title="Move down" data-action="segments-editor#down">↓</button>
+  </div>
+  <%= f.select :kind, Segment::KIND_LABELS.map { |value, label| [label, value] } %>
+  <%= f.collection_select :tab_id, Tab.order(:title), :id, :title, include_blank: "—" %>
+  <%= f.number_field :duration_minutes, min: 1, max: 120, step: 1 %>
+  <%= f.number_field :bpm, min: 20, max: 300, placeholder: "tab default" %>
+  <%= f.hidden_field :position %>
+  <%= f.hidden_field :_destroy, data: { segments_editor_target: "destroy" } %>
+  <button type="button" class="btn btn-ghost admin-delete" data-action="segments-editor#remove">✕</button>
+</div>

@@ -1,0 +1,39 @@
+<%= form_with model: [:admin, routine], data: { controller: "segments-editor" } do |f| %>
+  <% if routine.errors.any? %>
+    <div class="form-errors"><%= routine.errors.full_messages.to_sentence %></div>
+  <% end %>
+
+  <div class="field" style="max-width: 380px;">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="admin-segments-head">
+    <span></span><span>Kind</span><span>Tab</span><span>Minutes</span><span>BPM override</span><span></span>
+  </div>
+
+  <div data-segments-editor-target="rows">
+    <%= f.fields_for :segments do |segment_fields| %>
+      <%= render "segment_fields", f: segment_fields %>
+    <% end %>
+  </div>
+
+  <template data-segments-editor-target="template">
+    <%= f.fields_for :segments, Segment.new(kind: "tab_practice", duration_minutes: 5), child_index: "NEW_RECORD" do |segment_fields| %>
+      <%= render "segment_fields", f: segment_fields %>
+    <% end %>
+  </template>
+
+  <div class="toolbar" style="margin-top: 0.75rem;">
+    <button type="button" class="btn btn-ghost" data-action="segments-editor#add">+ Add segment</button>
+    <span class="spacer"></span>
+    <span class="muted">Reorder with the ↑ ↓ arrows — positions renumber on save.</span>
+  </div>
+
+  <div class="toolbar">
+    <%= f.submit routine.persisted? ? "Save routine" : "Create routine", class: "btn" %>
+    <% if routine.persisted? %>
+      <%= link_to "All routines", admin_routines_path, class: "muted" %>
+    <% end %>
+  </div>
+<% end %>

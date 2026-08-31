@@ -1,0 +1,65 @@
+<%= form_with model: [:admin, tab], data: { controller: "grid-editor" } do |f| %>
+  <% if tab.errors.any? %>
+    <div class="form-errors"><%= tab.errors.full_messages.to_sentence %></div>
+  <% end %>
+
+  <div class="field-row">
+    <div class="field" style="flex: 2 1 260px;">
+      <%= f.label :title %>
+      <%= f.text_field :title %>
+    </div>
+    <div class="field" style="flex: 0 1 140px;">
+      <%= f.label :default_bpm, "Default BPM" %>
+      <%= f.number_field :default_bpm, min: 20, max: 300 %>
+    </div>
+    <div class="field" style="flex: 0 0 auto;">
+      <%= f.label :beats_per_bar, "Beats per bar (new bars)" %>
+      <span class="btn-group">
+        <% [2, 3, 4, 6].each do |count| %>
+          <button type="button" class="btn btn-ghost" data-grid-editor-target="beats"
+                  data-action="grid-editor#setBeats" data-grid-editor-count-param="<%= count %>"><%= count %></button>
+        <% end %>
+      </span>
+    </div>
+    <div class="field" style="flex: 1 1 auto; display: flex; align-items: flex-end; justify-content: flex-end; gap: 8px;">
+      <button type="button" class="btn btn-ghost" data-action="grid-editor#addBar">+ Bar</button>
+      <button type="button" class="btn btn-ghost" data-action="grid-editor#addLabel">+ Section label</button>
+      <button type="button" class="btn btn-ghost" data-action="grid-editor#toggleImport">Import ASCII…</button>
+    </div>
+  </div>
+
+  <div class="card admin-import" hidden data-grid-editor-target="importPanel">
+    <label>Paste ASCII tab — replaces the grid</label>
+    <textarea rows="8" class="tab-input" data-grid-editor-target="importText"></textarea>
+    <div class="toolbar" style="margin: 0.6rem 0 0;">
+      <button type="button" class="btn" data-action="grid-editor#importAscii">Replace grid</button>
+      <button type="button" class="btn btn-ghost" data-action="grid-editor#toggleImport">Cancel</button>
+    </div>
+  </div>
+
+  <div class="engraved grid-editor" tabindex="0"
+       data-grid-editor-target="canvas"
+       data-action="keydown->grid-editor#keydown"></div>
+
+  <div class="fret-pad" data-grid-editor-target="pad">
+    <% (0..12).each do |fret| %>
+      <button type="button" class="btn btn-ghost" data-action="grid-editor#pad" data-grid-editor-fret-param="<%= fret %>"><%= fret %></button>
+    <% end %>
+    <button type="button" class="btn btn-ghost fret-pad-clear" data-action="grid-editor#padClear">⌫</button>
+    <button type="button" class="btn btn-ghost fret-pad-next" data-action="grid-editor#padNext">→</button>
+  </div>
+
+  <details class="admin-ascii">
+    <summary class="muted">Generated ASCII</summary>
+    <pre class="tab-sheet" data-grid-editor-target="preview"></pre>
+  </details>
+
+  <%= f.hidden_field :body, data: { grid_editor_target: "body" } %>
+
+  <div class="toolbar">
+    <%= f.submit tab.persisted? ? "Save tab" : "Create tab", class: "btn" %>
+    <% if tab.persisted? %>
+      <%= link_to "All tabs", admin_tabs_path, class: "muted" %>
+    <% end %>
+  </div>
+<% end %>

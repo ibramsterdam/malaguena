@@ -1,0 +1,4 @@
+<% content_for :title, "#{@routine.name} · Admin · Malagueña" %>
+<p class="eyebrow">Routines · editing</p>
+<h1><%= @routine.name %></h1>
+<%= render "form", routine: @routine %>

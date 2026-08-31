@@ -1,0 +1,21 @@
+<% content_for :title, "Routines · Admin · Malagueña" %>
+<p class="eyebrow">Practice</p>
+<h1>Routines</h1>
+
+<div class="toolbar">
+  <span class="muted"><%= pluralize(@routines.size, "routine") %></span>
+  <span class="spacer"></span>
+  <%= link_to "+ New routine", new_admin_routine_path, class: "btn" %>
+</div>
+
+<ul class="card-list admin-list">
+  <% @routines.each do |routine| %>
+    <li class="card admin-row admin-row-routines">
+      <%= link_to routine.name, edit_admin_routine_path(routine), class: "tab-title admin-row-title" %>
+      <span class="muted"><%= pluralize(routine.segments.size, "segment") %></span>
+      <span class="muted"><%= format_duration(routine.total_seconds) %></span>
+      <%= button_to "✕", admin_routine_path(routine), method: :delete, class: "btn btn-ghost admin-delete",
+            form: { data: { turbo_confirm: "Delete #{routine.name} and its #{pluralize(routine.segments.size, 'segment')}? The tabs it uses stay in the library." } } %>
+    </li>
+  <% end %>
+</ul>

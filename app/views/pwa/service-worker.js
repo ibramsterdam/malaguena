@@ -15,6 +15,10 @@ self.addEventListener("fetch", event => {
   if (request.method !== "GET") return
   const url = new URL(request.url)
   if (url.origin !== location.origin) return
+  // The admin goes straight to the network: never cached for offline, and
+  // a 401 answered through the worker would swallow the browser's own
+  // basic-auth prompt.
+  if (url.pathname.startsWith("/admin")) return
 
   if (request.mode === "navigate") {
     // Pages: network first, cached copy when offline, home as last resort.
