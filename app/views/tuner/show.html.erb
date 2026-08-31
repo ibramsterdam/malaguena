@@ -4,7 +4,7 @@
 
 <div class="card tuner" data-controller="tuner">
   <div class="tuner-note" data-tuner-target="note">—</div>
-  <div class="tuner-cents" data-tuner-target="cents"></div>
+  <div class="tuner-cents" data-tuner-target="cents">Pick a string, then pluck it.</div>
 
   <div class="tuner-gauge" aria-hidden="true">
     <span class="tuner-mark flat">♭</span>
@@ -15,10 +15,32 @@
     <span class="tuner-mark sharp">♯</span>
   </div>
 
-  <div class="tuner-strings">
-    <% [["E2", 82.41], ["A2", 110.0], ["D3", 146.83], ["G3", 196.0], ["B3", 246.94], ["E4", 329.63]].each do |name, frequency| %>
-      <span class="tuner-string" data-tuner-target="string" data-frequency="<%= frequency %>"><%= name %></span>
-    <% end %>
+  <div class="tuner-head">
+    <div class="tuner-side">
+      <% [["D3", 146.83], ["A2", 110.0], ["E2", 82.41]].each do |name, frequency| %>
+        <button type="button" class="tuner-string" aria-label="Tune the <%= name %> string"
+                data-tuner-target="string" data-action="tuner#select"
+                data-name="<%= name %>" data-frequency="<%= frequency %>"><%= name.first %></button>
+      <% end %>
+    </div>
+    <pre class="tuner-art" aria-hidden="true">  .=========.
+ /           \
+| (o)     (o) |
+|             |
+| (o)     (o) |
+|             |
+| (o)     (o) |
+ \           /
+  `-._____.-'
+     | | | |
+     | | | |</pre>
+    <div class="tuner-side">
+      <% [["G3", 196.0], ["B3", 246.94], ["E4", 329.63]].each do |name, frequency| %>
+        <button type="button" class="tuner-string" aria-label="Tune the <%= name %> string"
+                data-tuner-target="string" data-action="tuner#select"
+                data-name="<%= name %>" data-frequency="<%= frequency %>"><%= name.first %></button>
+      <% end %>
+    </div>
   </div>
 
   <p class="muted tuner-status" data-tuner-target="status">Microphone is off.</p>
