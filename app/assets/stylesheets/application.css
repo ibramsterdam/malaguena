@@ -235,6 +235,8 @@ pre.tab-sheet {
   z-index: 20;
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 0.9rem;
   padding: 0.65rem clamp(1rem, 4vw, 2rem) calc(0.65rem + env(safe-area-inset-bottom));
   background: var(--panel);
@@ -256,7 +258,9 @@ pre.tab-sheet {
 }
 .play-bar-bpm small { font-size: 0.75rem; color: var(--muted); font-family: var(--sans); font-weight: 400; }
 .play-bar .metro-dots { margin: 0; }
-.play-bar-spacer { height: calc(4.4rem + env(safe-area-inset-bottom)); }
+/* Lift the footer clear of the fixed bar, so the end of the page is
+   still the end of the page. */
+body:has(.play-bar) .site-footer { margin-bottom: calc(4.4rem + env(safe-area-inset-bottom)); }
 @media (max-width: 540px) {
   .play-bar { gap: 0.6rem; }
   .play-bar-label { display: none; }
