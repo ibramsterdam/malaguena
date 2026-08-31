@@ -1,25 +1,73 @@
 <% content_for :title, "#{@routine.name} · Malagueña" %>
-<p class="eyebrow">Routine · <%= format_duration(@routine.total_seconds) %></p>
-<h1><%= @routine.name %></h1>
+<%
+  segment_data = @routine.segments.map do |segment|
+    { label: segment.label, kind: segment.kind, seconds: segment.duration_seconds, bpm: segment.effective_bpm }
+  end
+%>
 
-<ul class="card-list">
-  <% @routine.segments.each_with_index do |segment, index| %>
-    <li class="card segment-line">
-      <span class="segment-index"><%= index + 1 %></span>
-      <span>
-        <strong><%= segment.label %></strong>
-        <span class="muted">
-          <%= format_duration(segment.duration_seconds) %><% if segment.tab_practice? %> · <%= segment.effective_bpm %> BPM<% end %>
-        </span>
-      </span>
-    </li>
-  <% end %>
-</ul>
+<div data-controller="routine-run" data-routine-run-segments-value="<%= segment_data.to_json %>">
+  <p class="eyebrow">Routine · <%= format_duration(@routine.total_seconds) %></p>
+  <h1><%= @routine.name %></h1>
+  <p class="muted player-status" data-routine-run-target="status">Ready when you are.</p>
 
-<div class="toolbar">
-  <%= link_to "Edit", edit_routine_path(@routine), class: "btn btn-ghost" %>
-  <%= button_to "Delete", @routine, method: :delete, class: "btn btn-danger",
-        data: { turbo_confirm: "Delete #{@routine.name}?" } %>
-  <span class="spacer"></span>
-  <%= link_to "All routines", routines_path, class: "muted" %>
+  <div class="player-grid">
+    <aside>
+      <ul class="card-list player-segments">
+        <% @routine.segments.each_with_index do |segment, index| %>
+          <li class="card segment-line" data-routine-run-target="segment">
+            <span class="segment-index"><%= index + 1 %></span>
+            <span>
+              <strong><%= segment.label %></strong><br>
+              <span class="muted">
+                <%= format_duration(segment.duration_seconds) %><% if segment.tab_practice? %> · <%= segment.effective_bpm %> BPM<% end %>
+              </span>
+            </span>
+          </li>
+        <% end %>
+      </ul>
+    </aside>
+
+    <section class="player-main">
+      <div class="dials">
+        <div class="card dial">
+          <span class="dial-label">Time left</span>
+          <span class="dial-big" data-routine-run-target="clock">00:00</span>
+        </div>
+        <div class="card dial" data-controller="metronome" data-routine-run-target="metronome">
+          <span class="dial-label">Metronome</span>
+          <span class="dial-big"><span data-metronome-target="bpm">80</span> <small>BPM</small></span>
+          <div class="metro-dots dial-dots" aria-hidden="true">
+            <i data-metronome-target="dot"></i>
+            <i data-metronome-target="dot"></i>
+            <i data-metronome-target="dot"></i>
+            <i data-metronome-target="dot"></i>
+          </div>
+          <button class="btn btn-ghost dial-toggle" data-metronome-target="toggle" data-action="metronome#toggle">Start</button>
+        </div>
+      </div>
+
+      <% @routine.segments.each do |segment| %>
+        <div data-routine-run-target="pane" hidden>
+          <% if segment.tab_practice? && segment.tab %>
+            <div class="engraved">
+              <pre class="tab-sheet"><%= segment.tab.body %></pre>
+            </div>
+          <% elsif segment.rest? %>
+            <div class="card pane-calm">Shake out your hands. Breathe. The next segment starts on its own.</div>
+          <% else %>
+            <div class="card pane-calm">Free play — no sheet, no playhead. Just you and the guitar.</div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="toolbar">
+        <button class="btn player-toggle" data-routine-run-target="toggle" data-action="routine-run#toggle">Start practice</button>
+        <button class="btn btn-ghost" data-action="routine-run#skip">Skip segment</button>
+        <span class="spacer"></span>
+        <%= link_to "Edit", edit_routine_path(@routine), class: "muted" %>
+        <%= button_to "Delete", @routine, method: :delete, class: "btn btn-danger",
+              data: { turbo_confirm: "Delete #{@routine.name}?" } %>
+      </div>
+    </section>
+  </div>
 </div>
