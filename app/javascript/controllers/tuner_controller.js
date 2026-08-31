@@ -65,7 +65,11 @@ export default class extends Controller {
     this.strings.forEach(s => s.element.classList.toggle("selected", s === string))
     this.stringLineTargets.forEach(line => line.classList.toggle("lit", line.dataset.name === string.name))
     string.element.animate(
-      [{ transform: "scale(1)" }, { transform: "scale(1.18)" }, { transform: "scale(1)" }],
+      [
+        { transform: "translateY(-50%) scale(1)" },
+        { transform: "translateY(-50%) scale(1.18)" },
+        { transform: "translateY(-50%) scale(1)" }
+      ],
       { duration: 250, easing: "ease-out" }
     )
     this.noteTarget.textContent = string.name
