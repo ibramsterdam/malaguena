@@ -213,7 +213,17 @@ pre.tab-sheet {
   line-height: 1.6;
   color: #DCCDB4;
   min-width: max-content;
+  cursor: pointer;
 }
+
+.tab-loop {
+  position: absolute;
+  background: var(--accent-soft);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.tab-hint { font-size: 0.8rem; margin-top: 0.6rem; }
 
 .tab-playhead {
   position: absolute;

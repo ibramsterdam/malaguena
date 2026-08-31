@@ -6,17 +6,26 @@
 <div class="engraved" data-controller="tab-player">
   <pre class="tab-sheet" data-tab-player-target="sheet"><%= @tab.body %></pre>
 </div>
+<p class="muted tab-hint">Loop a passage: click the sheet where it starts, then where it ends. ⟲ restarts, ‹ › step a bar.</p>
 
 <div class="toolbar">
   <span class="spacer"></span>
   <%= link_to "All tabs", tabs_path, class: "muted" %>
 </div>
 
-<div class="play-bar" data-controller="metronome" data-metronome-bpm-value="<%= @tab.default_bpm %>">
+<div class="play-bar" data-controller="metronome transport" data-metronome-bpm-value="<%= @tab.default_bpm %>">
   <span class="play-bar-label">Play along</span>
   <span class="play-bar-bpm"><span data-metronome-target="bpm"><%= @tab.default_bpm %></span> <small>BPM</small></span>
   <div class="metro-dots play-bar-dots" data-metronome-target="dots" aria-hidden="true"></div>
+  <button class="btn btn-ghost" title="Restart" aria-label="Restart"
+          data-action="transport#send" data-transport-action-param="restart">⟲</button>
+  <button class="btn btn-ghost" title="Back a bar" aria-label="Back a bar"
+          data-action="transport#send" data-transport-action-param="back">‹</button>
+  <button class="btn btn-ghost" title="Forward a bar" aria-label="Forward a bar"
+          data-action="transport#send" data-transport-action-param="forward">›</button>
   <button class="btn btn-ghost" data-action="metronome#nudge" data-metronome-amount-param="-5">−5</button>
   <button class="btn" data-metronome-target="toggle" data-action="metronome#toggle">Start</button>
   <button class="btn btn-ghost" data-action="metronome#nudge" data-metronome-amount-param="5">+5</button>
+  <button class="btn btn-ghost" hidden data-transport-target="clear"
+          data-action="transport#send" data-transport-action-param="clearloop">✕ loop</button>
 </div>
