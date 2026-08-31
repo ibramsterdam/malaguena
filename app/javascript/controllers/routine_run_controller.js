@@ -65,15 +65,21 @@ export default class extends Controller {
     this.metronome.setBpm(this.metronome.bpmValue + Number(event.params.amount))
   }
 
-  // Tapping a segment restarts practice from the top of that segment.
+  // Tapping a segment moves to the top of that segment. Practice keeps
+  // running if it was running; otherwise it waits for Start.
   jump(event) {
     clearInterval(this.timer)
     this.metronome.stop()
     this.index = Number(event.params.index)
     this.remainingMs = this.currentSegment.seconds * 1000
     this.showSegment()
-    this.state = "paused"
-    this.resume()
+    if (this.state === "running") {
+      this.state = "paused"
+      this.resume()
+    } else {
+      if (this.state === "done") this.state = "idle"
+      this.render()
+    }
     this.renderClock()
   }
 
