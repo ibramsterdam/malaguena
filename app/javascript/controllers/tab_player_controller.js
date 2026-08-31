@@ -46,7 +46,8 @@ export default class extends Controller {
     window.removeEventListener("tab:restart", this.onRestart)
     window.removeEventListener("tab:clearloop", this.onClearLoop)
     this.sheetTarget.removeEventListener("click", this.onClick)
-    cancelAnimationFrame(this.glide)
+    cancelAnimationFrame(this.glideX)
+    cancelAnimationFrame(this.glideY)
   }
 
   // Finds the systems (groups of consecutive string lines) and, within each,
@@ -210,38 +211,50 @@ export default class extends Controller {
     this.playhead.style.top = `calc(${note.row} * 1.6em)`
     this.playhead.style.height = `calc(${note.height} * 1.6em)`
     const container = this.element
-    const target = this.playhead.offsetLeft - container.clientWidth / 2
-    container.scrollTo({ left: Math.max(0, target), behavior: "smooth" })
+    const left = this.playhead.offsetLeft - container.clientWidth / 2
+    this.animateScroll("glideX", container.scrollLeft, Math.max(0, left), 300,
+      value => { container.scrollLeft = value })
     if (note.row !== this.currentRow) {
       this.currentRow = note.row
-      this.scrollPageToPlayhead()
+      this.scrollToPlayhead()
     }
   }
 
-  // Hands are on the guitar: when the playhead lands on a new system,
-  // bring that system to the middle of the screen on its own.
-  scrollPageToPlayhead() {
+  // Hands are on the guitar: when the playhead lands on a new system, bring
+  // that system into the middle on its own. A sheet capped in height (the
+  // routine player) scrolls within itself; a full-page sheet scrolls the
+  // window instead.
+  scrollToPlayhead() {
+    const container = this.element
     const rect = this.playhead.getBoundingClientRect()
-    const barHeight = document.querySelector(".play-bar")?.offsetHeight ?? 0
-    const visible = window.innerHeight - barHeight
-    const top = rect.top + window.scrollY - (visible - rect.height) / 2
-    this.glideTo(Math.max(0, top))
+    if (container.scrollHeight > container.clientHeight + 4) {
+      const box = container.getBoundingClientRect()
+      const top = container.scrollTop + (rect.top - box.top) - (container.clientHeight - rect.height) / 2
+      this.animateScroll("glideY", container.scrollTop, Math.max(0, top), 800,
+        value => { container.scrollTop = value })
+    } else {
+      const barHeight = document.querySelector(".play-bar")?.offsetHeight ?? 0
+      const visible = window.innerHeight - barHeight
+      const top = rect.top + window.scrollY - (visible - rect.height) / 2
+      this.animateScroll("glideY", window.scrollY, Math.max(0, top), 800,
+        value => window.scrollTo(0, value))
+    }
   }
 
-  // The browser's own smooth scroll is a quick ~300ms lurch; a longer
-  // eased glide keeps the page turn from twitching mid-bar.
-  glideTo(target, duration = 800) {
-    cancelAnimationFrame(this.glide)
-    const from = window.scrollY
-    const distance = target - from
-    if (Math.abs(distance) < 2) return
+  // The browser's own smooth scroll is a quick ~300ms lurch that also fights
+  // concurrent programmatic scrolling, so both axes run through this eased
+  // animator — each on its own handle, so a page turn and the per-beat
+  // horizontal drift never cancel each other.
+  animateScroll(handle, from, to, duration, apply) {
+    cancelAnimationFrame(this[handle])
+    if (Math.abs(to - from) < 2) return
     const startedAt = performance.now()
     const ease = t => t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2
     const step = now => {
       const progress = Math.min(1, (now - startedAt) / duration)
-      window.scrollTo(0, from + distance * ease(progress))
-      if (progress < 1) this.glide = requestAnimationFrame(step)
+      apply(from + (to - from) * ease(progress))
+      if (progress < 1) this[handle] = requestAnimationFrame(step)
     }
-    this.glide = requestAnimationFrame(step)
+    this[handle] = requestAnimationFrame(step)
   }
 }
