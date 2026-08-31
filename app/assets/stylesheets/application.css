@@ -199,6 +199,21 @@ pre.tab-sheet {
   min-width: max-content;
 }
 
+/* ---------- routines ---------- */
+
+.segment-row { margin-bottom: 0.8rem; }
+.segment-row-foot { display: flex; justify-content: flex-end; margin-top: 0.4rem; }
+
+.segment-line { display: flex; gap: 1rem; align-items: baseline; }
+.segment-line strong { font-family: var(--serif); font-weight: 600; font-size: 1.05rem; margin-right: 0.5rem; }
+.segment-index {
+  font-family: var(--serif);
+  color: var(--accent);
+  font-size: 1.2rem;
+  min-width: 1.2rem;
+  text-align: right;
+}
+
 /* ---------- metronome ---------- */
 
 .metro { max-width: 420px; margin: 1.5rem auto; text-align: center; padding: 2rem 1.5rem; }

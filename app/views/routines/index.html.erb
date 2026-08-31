@@ -1,0 +1,25 @@
+<% content_for :title, "Routines · Malagueña" %>
+<p class="eyebrow">Practice</p>
+<h1>Routines</h1>
+
+<div class="toolbar">
+  <span class="muted"><%= pluralize(@routines.size, "routine") %></span>
+  <span class="spacer"></span>
+  <%= link_to "New routine", new_routine_path, class: "btn" %>
+</div>
+
+<% if @routines.any? %>
+  <ul class="card-list">
+    <% @routines.each do |routine| %>
+      <li class="card tab-row">
+        <%= link_to routine.name, routine, class: "tab-title" %>
+        <span class="muted">
+          <%= pluralize(routine.segments.size, "segment") %> ·
+          <%= format_duration(routine.total_seconds) %>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p class="muted">No routines yet — build your first practice.</p>
+<% end %>

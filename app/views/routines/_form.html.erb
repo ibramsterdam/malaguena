@@ -1,0 +1,39 @@
+<%= form_with model: routine, data: { controller: "nested-form" } do |f| %>
+  <% if routine.errors.any? %>
+    <div class="form-errors">
+      Couldn't save this routine:
+      <ul>
+        <% routine.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name, placeholder: "Morning practice" %>
+  </div>
+
+  <h2>Segments</h2>
+  <p class="muted">They run in order, top to bottom.</p>
+
+  <div data-nested-form-target="rows">
+    <%= f.fields_for :segments do |segment_form| %>
+      <%= render "segment_fields", f: segment_form %>
+    <% end %>
+  </div>
+
+  <template data-nested-form-target="template">
+    <%= f.fields_for :segments, Segment.new(kind: "tab_practice", duration_minutes: 5), child_index: "NEW_RECORD" do |segment_form| %>
+      <%= render "segment_fields", f: segment_form %>
+    <% end %>
+  </template>
+
+  <div class="toolbar">
+    <button class="btn btn-ghost" data-action="nested-form#add">Add segment</button>
+    <span class="spacer"></span>
+    <%= f.submit routine.persisted? ? "Save routine" : "Create routine", class: "btn" %>
+    <%= link_to "Cancel", routine.persisted? ? routine_path(routine) : routines_path, class: "btn btn-ghost" %>
+  </div>
+<% end %>
