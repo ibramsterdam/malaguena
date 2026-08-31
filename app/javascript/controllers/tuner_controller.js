@@ -69,7 +69,7 @@ export default class extends Controller {
     this.buffer = new Float32Array(this.analyser.fftSize)
     this.audioContext.resume()
     this.listening = true
-    this.statusTarget.textContent = "Play a string…"
+    this.statusTarget.textContent = ""
     this.loop()
   }
 
