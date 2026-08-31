@@ -432,7 +432,7 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
   justify-content: center;
 }
 
-.tuner-status { font-variant-numeric: tabular-nums; }
+.tuner-status { font-variant-numeric: tabular-nums; min-height: 1.5em; margin-bottom: 0; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
