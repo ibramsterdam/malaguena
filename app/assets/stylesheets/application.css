@@ -415,6 +415,7 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
   border: 1px solid var(--line);
   border-radius: 50%;
   cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 .tuner-string:hover { border-color: var(--muted); }
 .tuner-string.selected { color: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
