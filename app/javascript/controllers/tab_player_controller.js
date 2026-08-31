@@ -13,7 +13,7 @@ export default class extends Controller {
   connect() {
     this.originalText = this.sheetTarget.textContent
 
-    this.onBeat = () => this.advance()
+    this.onBeat = event => this.advance(event.detail.beat)
     this.onBack = () => this.back()
     this.onForward = () => this.forward()
     this.onRestart = () => this.restart()
@@ -183,12 +183,19 @@ export default class extends Controller {
 
   // ----- playback -----
 
-  advance() {
+  advance(beat) {
     if (this.columns.length === 0) return
     if (this.element.offsetParent === null) return // hidden pane, not our beat
-    let next = this.pointer + 1
-    if (this.loop && next > this.loop.b) next = this.loop.a
-    if (next >= this.columns.length) next = this.loop ? this.loop.a : 0
+    let next
+    if (beat === 0) {
+      // The first beat after a (count-in and) start strikes the note the
+      // playhead is already showing, not the one after it.
+      next = Math.max(0, this.pointer)
+    } else {
+      next = this.pointer + 1
+      if (this.loop && next > this.loop.b) next = this.loop.a
+      if (next >= this.columns.length) next = this.loop ? this.loop.a : 0
+    }
     this.pointer = next
     this.moveTo(this.columns[this.pointer])
   }
