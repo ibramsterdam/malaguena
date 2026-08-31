@@ -299,6 +299,40 @@ pre.tab-sheet {
 
 input[type="range"] { width: 100%; accent-color: var(--accent); }
 
+.metro-marking {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--accent);
+  font-size: 1.1rem;
+  margin: 0.2rem 0 0;
+  min-height: 1.4em;
+}
+
+.metro-extras {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.6rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+}
+.metro-extra { display: flex; flex-direction: column; align-items: center; gap: 0.45rem; }
+.metro-tap { min-width: 5.5rem; }
+.metro-beats { display: flex; gap: 0.4rem; }
+.metro-beats .btn.active { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.metro-extra input[type="number"] { width: 5.5rem; text-align: center; }
+.metro-timer-left { font-size: 0.8rem; font-variant-numeric: tabular-nums; min-height: 1.2em; }
+
+.markings { width: 100%; border-collapse: collapse; margin: 1rem 0 0; }
+.markings td { padding: 0.55rem 0.8rem; border-top: 1px solid var(--line); }
+.markings tr:last-child td { border-bottom: 1px solid var(--line); }
+.markings .marking-name { font-family: var(--serif); font-style: italic; font-size: 1.05rem; white-space: nowrap; }
+.markings .marking-range { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.markings .marking-desc { color: var(--muted); }
+.markings tr.active td { background: var(--accent-soft); }
+.markings tr.active .marking-name { color: var(--accent); }
+
 .visually-hidden {
   position: absolute;
   width: 1px; height: 1px;

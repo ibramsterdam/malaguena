@@ -5,14 +5,29 @@ import { Controller } from "@hotwired/stimulus"
 // ear). Each click also dispatches a window-level "metronome:beat" event that
 // the tab playhead follows.
 export default class extends Controller {
-  static targets = ["bpm", "slider", "toggle", "dot"]
+  static targets = ["bpm", "slider", "toggle", "dots", "marking", "markingRow", "timerInput", "timerDisplay", "beatButton"]
   static values = { bpm: { type: Number, default: 80 }, beatsPerBar: { type: Number, default: 4 } }
 
   static LOOKAHEAD_MS = 25
   static SCHEDULE_AHEAD_S = 0.1
 
+  static MARKINGS = [
+    { name: "Grave", min: 30, max: 44 },
+    { name: "Largo", min: 45, max: 59 },
+    { name: "Larghetto", min: 60, max: 65 },
+    { name: "Adagio", min: 66, max: 75 },
+    { name: "Andante", min: 76, max: 107 },
+    { name: "Moderato", min: 108, max: 119 },
+    { name: "Allegro", min: 120, max: 155 },
+    { name: "Vivace", min: 156, max: 167 },
+    { name: "Presto", min: 168, max: 199 },
+    { name: "Prestissimo", min: 200, max: 240 }
+  ]
+
   connect() {
     this.running = false
+    this.taps = []
+    this.renderDots()
     this.render()
   }
 
@@ -31,14 +46,17 @@ export default class extends Controller {
     this.beat = 0
     this.nextBeatTime = this.context.currentTime + 0.08
     this.timer = setInterval(() => this.schedule(), this.constructor.LOOKAHEAD_MS)
+    this.startCountdown()
     this.running = true
     this.render()
   }
 
   stop() {
     clearInterval(this.timer)
+    clearInterval(this.countdown)
+    this.countdown = null
     this.running = false
-    if (this.hasDotTarget) this.dotTargets.forEach(dot => dot.classList.remove("hit"))
+    if (this.hasDotsTarget) [...this.dotsTarget.children].forEach(dot => dot.classList.remove("hit"))
     this.render()
   }
 
@@ -74,11 +92,13 @@ export default class extends Controller {
   }
 
   flash(beat) {
-    if (!this.hasDotTarget) return
-    this.dotTargets.forEach((dot, index) => {
+    if (!this.hasDotsTarget) return
+    ;[...this.dotsTarget.children].forEach((dot, index) => {
       dot.classList.toggle("hit", index === beat % this.beatsPerBarValue)
     })
   }
+
+  // ----- tempo -----
 
   nudge(event) {
     this.setBpm(this.bpmValue + Number(event.params.amount))
@@ -88,14 +108,80 @@ export default class extends Controller {
     this.setBpm(Number(this.sliderTarget.value))
   }
 
+  tap() {
+    const now = performance.now()
+    if (this.taps.length && now - this.taps.at(-1) > 2000) this.taps = []
+    this.taps.push(now)
+    if (this.taps.length < 2) return
+    const recent = this.taps.slice(-7)
+    const interval = (recent.at(-1) - recent[0]) / (recent.length - 1)
+    this.setBpm(Math.round(60000 / interval))
+  }
+
   setBpm(bpm) {
     this.bpmValue = Math.min(240, Math.max(30, bpm))
     this.render()
   }
 
+  marking() {
+    return this.constructor.MARKINGS.find(m => this.bpmValue >= m.min && this.bpmValue <= m.max)
+  }
+
+  // ----- beats per bar -----
+
+  setBeats(event) {
+    this.beatsPerBarValue = Number(event.params.count)
+    this.renderDots()
+    this.render()
+  }
+
+  renderDots() {
+    if (!this.hasDotsTarget) return
+    this.dotsTarget.replaceChildren(
+      ...Array.from({ length: this.beatsPerBarValue }, () => document.createElement("i"))
+    )
+  }
+
+  // ----- timer -----
+
+  startCountdown() {
+    if (!this.hasTimerInputTarget) return
+    const minutes = Number(this.timerInputTarget.value)
+    if (!minutes || minutes <= 0) {
+      if (this.hasTimerDisplayTarget) this.timerDisplayTarget.textContent = ""
+      return
+    }
+    this.timerEndAt = performance.now() + minutes * 60000
+    this.countdown = setInterval(() => {
+      const left = this.timerEndAt - performance.now()
+      if (left <= 0) {
+        this.stop()
+        this.timerDisplayTarget.textContent = "Time!"
+        return
+      }
+      const total = Math.ceil(left / 1000)
+      this.timerDisplayTarget.textContent =
+        `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")} left`
+    }, 250)
+  }
+
+  // ----- rendering -----
+
   render() {
     if (this.hasBpmTarget) this.bpmTarget.textContent = this.bpmValue
     if (this.hasSliderTarget) this.sliderTarget.value = this.bpmValue
     if (this.hasToggleTarget) this.toggleTarget.textContent = this.running ? "Stop" : "Start"
+    if (this.hasMarkingTarget) this.markingTarget.textContent = this.marking()?.name ?? ""
+    if (this.hasBeatButtonTarget) {
+      this.beatButtonTargets.forEach(button => {
+        button.classList.toggle("active", Number(button.dataset.metronomeCountParam) === this.beatsPerBarValue)
+      })
+    }
+    if (this.hasMarkingRowTarget) {
+      this.markingRowTargets.forEach(row => {
+        const active = this.bpmValue >= Number(row.dataset.min) && this.bpmValue <= Number(row.dataset.max)
+        row.classList.toggle("active", active)
+      })
+    }
   }
 }

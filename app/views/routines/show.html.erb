@@ -36,12 +36,7 @@
         <div class="card dial" data-controller="metronome" data-routine-run-target="metronome">
           <span class="dial-label">Metronome</span>
           <span class="dial-big"><span data-metronome-target="bpm">80</span> <small>BPM</small></span>
-          <div class="metro-dots dial-dots" aria-hidden="true">
-            <i data-metronome-target="dot"></i>
-            <i data-metronome-target="dot"></i>
-            <i data-metronome-target="dot"></i>
-            <i data-metronome-target="dot"></i>
-          </div>
+          <div class="metro-dots dial-dots" data-metronome-target="dots" aria-hidden="true"></div>
           <button class="btn btn-ghost dial-toggle" data-metronome-target="toggle" data-action="metronome#toggle">Start</button>
         </div>
       </div>

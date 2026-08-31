@@ -10,12 +10,7 @@
 <div class="card dial tab-metro" data-controller="metronome" data-metronome-bpm-value="<%= @tab.default_bpm %>">
   <span class="dial-label">Play along</span>
   <span class="dial-big"><span data-metronome-target="bpm"><%= @tab.default_bpm %></span> <small>BPM</small></span>
-  <div class="metro-dots dial-dots" aria-hidden="true">
-    <i data-metronome-target="dot"></i>
-    <i data-metronome-target="dot"></i>
-    <i data-metronome-target="dot"></i>
-    <i data-metronome-target="dot"></i>
-  </div>
+  <div class="metro-dots dial-dots" data-metronome-target="dots" aria-hidden="true"></div>
   <div class="toolbar" style="margin: 0;">
     <button class="btn btn-ghost dial-toggle" data-action="metronome#nudge" data-metronome-amount-param="-5">−5</button>
     <button class="btn dial-toggle" data-metronome-target="toggle" data-action="metronome#toggle">Start</button>

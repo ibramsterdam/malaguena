@@ -2,28 +2,70 @@
 <p class="eyebrow">Keep time</p>
 <h1>Metronome</h1>
 
-<div class="card metro" data-controller="metronome" data-metronome-bpm-value="80">
-  <div class="metro-readout">
-    <span class="metro-bpm" data-metronome-target="bpm">80</span>
-    <span class="metro-unit">BPM</span>
+<div data-controller="metronome" data-metronome-bpm-value="80">
+  <div class="card metro">
+    <div class="metro-readout">
+      <span class="metro-bpm" data-metronome-target="bpm">80</span>
+      <span class="metro-unit">BPM</span>
+    </div>
+    <p class="metro-marking" data-metronome-target="marking">Andante</p>
+
+    <div class="metro-dots" data-metronome-target="dots" aria-hidden="true"></div>
+
+    <div class="metro-controls">
+      <button class="btn btn-ghost" data-action="metronome#nudge" data-metronome-amount-param="-5">−5</button>
+      <button class="btn btn-ghost" data-action="metronome#nudge" data-metronome-amount-param="-1">−1</button>
+      <button class="btn metro-toggle" data-metronome-target="toggle" data-action="metronome#toggle">Start</button>
+      <button class="btn btn-ghost" data-action="metronome#nudge" data-metronome-amount-param="1">+1</button>
+      <button class="btn btn-ghost" data-action="metronome#nudge" data-metronome-amount-param="5">+5</button>
+    </div>
+
+    <label for="metro-slider" class="visually-hidden">Tempo</label>
+    <input id="metro-slider" type="range" min="30" max="240" step="1" value="80"
+           data-metronome-target="slider" data-action="input->metronome#slide">
+
+    <div class="metro-extras">
+      <div class="metro-extra">
+        <span class="dial-label">Tap the tempo</span>
+        <button class="btn btn-ghost metro-tap" data-action="metronome#tap">Tap</button>
+      </div>
+      <div class="metro-extra">
+        <span class="dial-label">Beats per bar</span>
+        <div class="metro-beats">
+          <% [2, 3, 4, 6].each do |count| %>
+            <button class="btn btn-ghost" data-metronome-target="beatButton"
+                    data-action="metronome#setBeats" data-metronome-count-param="<%= count %>"><%= count %></button>
+          <% end %>
+        </div>
+      </div>
+      <div class="metro-extra">
+        <label for="metro-timer" class="dial-label" style="margin-bottom: 0.25rem;">Timer (minutes)</label>
+        <input id="metro-timer" type="number" min="1" max="120" placeholder="—" data-metronome-target="timerInput">
+        <span class="muted metro-timer-left" data-metronome-target="timerDisplay"></span>
+      </div>
+    </div>
   </div>
 
-  <div class="metro-dots" aria-hidden="true">
-    <i data-metronome-target="dot"></i>
-    <i data-metronome-target="dot"></i>
-    <i data-metronome-target="dot"></i>
-    <i data-metronome-target="dot"></i>
-  </div>
-
-  <div class="metro-controls">
-    <button class="btn btn-ghost" data-action="metronome#nudge" data-metronome-amount-param="-5">−5</button>
-    <button class="btn btn-ghost" data-action="metronome#nudge" data-metronome-amount-param="-1">−1</button>
-    <button class="btn metro-toggle" data-metronome-target="toggle" data-action="metronome#toggle">Start</button>
-    <button class="btn btn-ghost" data-action="metronome#nudge" data-metronome-amount-param="1">+1</button>
-    <button class="btn btn-ghost" data-action="metronome#nudge" data-metronome-amount-param="5">+5</button>
-  </div>
-
-  <label for="metro-slider" class="visually-hidden">Tempo</label>
-  <input id="metro-slider" type="range" min="30" max="240" step="1" value="80"
-         data-metronome-target="slider" data-action="input->metronome#slide">
+  <h2>Tempo markings</h2>
+  <p class="muted">The Italian words on sheet music are tempo ranges. Set a tempo above and its marking lights up.</p>
+  <table class="markings">
+    <% [
+      ["Grave", 30, 44, "solemn and slow"],
+      ["Largo", 45, 59, "broadly"],
+      ["Larghetto", 60, 65, "rather broadly"],
+      ["Adagio", 66, 75, "slowly, at ease"],
+      ["Andante", 76, 107, "at a walking pace"],
+      ["Moderato", 108, 119, "moderately"],
+      ["Allegro", 120, 155, "fast and bright"],
+      ["Vivace", 156, 167, "lively"],
+      ["Presto", 168, 199, "very fast"],
+      ["Prestissimo", 200, 240, "as fast as it goes"]
+    ].each do |name, min, max, description| %>
+      <tr data-metronome-target="markingRow" data-min="<%= min %>" data-max="<%= max %>">
+        <td class="marking-name"><%= name %></td>
+        <td class="marking-range"><%= min %>–<%= max %></td>
+        <td class="marking-desc"><%= description %></td>
+      </tr>
+    <% end %>
+  </table>
 </div>
