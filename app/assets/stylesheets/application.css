@@ -322,7 +322,7 @@ body:has(.play-bar) .site-footer { margin-bottom: calc(4.4rem + env(safe-area-in
 
 .player-grid {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: fit-content(380px) minmax(0, 1fr);
   gap: 1.25rem;
   margin-top: 1.25rem;
   align-items: start;
@@ -363,6 +363,8 @@ body:has(.play-bar) .site-footer { margin-bottom: calc(4.4rem + env(safe-area-in
   font-weight: 600;
   font-size: 1rem;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .segment-toc-dots {
   flex: 1;
