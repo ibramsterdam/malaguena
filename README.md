@@ -42,4 +42,4 @@ bin/kamal deploy   # every time after
 
 ---
 
-<p align="center"><sub>Built by <a href="https://bramjanssen.eu">Bram</a> — with a warm coffee and a napping cat.</sub></p>
+<p align="center"><sub>Built by <a href="https://bramjanssen.eu">Bram</a></sub></p>
