@@ -363,10 +363,13 @@ body:has(.play-bar) .site-footer { margin-bottom: calc(4.4rem + env(safe-area-in
 
 .pane-calm { color: var(--muted); font-family: var(--serif); font-size: 1.1rem; padding: 2rem 1.5rem; text-align: center; }
 
-/* In the routine player the sheet is a window, not a page: it shows about
-   two systems and scrolls within itself, so the dials and controls never
-   leave the screen. */
-.player-main .engraved { max-height: min(52vh, 420px); overflow-y: auto; }
+/* In the routine player the sheet is a window, not a page: it takes
+   whatever height is left after the heading, dials and toolbar, and
+   scrolls within itself — the whole player fits one screen. */
+.player-main .engraved {
+  max-height: clamp(220px, calc(100dvh - 480px), 560px);
+  overflow-y: auto;
+}
 
 .player-toggle { min-width: 9rem; }
 

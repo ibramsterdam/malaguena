@@ -100,18 +100,24 @@ export default class extends Controller {
     this.moveTo(this.columns[index])
   }
 
+  // Transport events reach every tab player on the page; only the one
+  // whose pane is showing may answer.
+  get hidden() {
+    return this.columns.length === 0 || this.element.offsetParent === null
+  }
+
   back() {
-    if (this.columns.length === 0) return
+    if (this.hidden) return
     this.jumpTo(Math.max(0, this.pointer - 1))
   }
 
   forward() {
-    if (this.columns.length === 0) return
+    if (this.hidden) return
     this.jumpTo(Math.min(this.columns.length - 1, this.pointer + 1))
   }
 
   restart() {
-    if (this.columns.length === 0) return
+    if (this.hidden) return
     this.jumpTo(this.loop ? this.loop.a : 0)
   }
 
@@ -161,6 +167,7 @@ export default class extends Controller {
   }
 
   clearLoop() {
+    if (this.hidden) return
     this.loop = null
     this.pendingA = null
     this.renderLoop()
