@@ -455,6 +455,7 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
 .metro-tap { min-width: 5.5rem; }
 .metro-beats { display: flex; gap: 0.4rem; }
 .metro-beats .btn.active { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn-ghost.active { border-color: var(--accent); color: var(--accent); }
 .metro-extra input[type="number"] { width: 5.5rem; text-align: center; }
 .metro-timer-left { font-size: 0.8rem; font-variant-numeric: tabular-nums; min-height: 1.2em; }
 

@@ -36,6 +36,8 @@
             <button class="btn btn-ghost" data-metronome-target="beatButton"
                     data-action="metronome#setBeats" data-metronome-count-param="<%= count %>"><%= count %></button>
           <% end %>
+          <button class="btn btn-ghost active" aria-pressed="true" title="Accent the first beat of the bar"
+                  data-metronome-target="accent" data-action="metronome#toggleAccent">Accent</button>
         </div>
       </div>
       <div class="metro-extra">

@@ -1,7 +1,8 @@
 <% content_for :title, "#{@routine.name} · Malagueña" %>
 <%
   segment_data = @routine.segments.map do |segment|
-    { label: segment.label, kind: segment.kind, seconds: segment.duration_seconds, bpm: segment.effective_bpm }
+    { label: segment.label, kind: segment.kind, seconds: segment.duration_seconds,
+      bpm: segment.effective_bpm, beats: segment.tab&.beats_per_bar || 4 }
   end
 %>
 
@@ -66,6 +67,8 @@
       <button class="btn btn-ghost" data-action="routine-run#nudge" data-routine-run-amount-param="-5">−5</button>
       <button class="btn btn-ghost" data-action="routine-run#nudge" data-routine-run-amount-param="5">+5</button>
     </span>
+    <button class="btn btn-ghost active" aria-pressed="true" title="Accent the first beat of the bar"
+            data-metronome-target="accent" data-action="metronome#toggleAccent">Accent</button>
     <button class="btn btn-ghost" hidden data-transport-target="clear"
             data-action="transport#send" data-transport-action-param="clearloop">✕ loop</button>
   </div>

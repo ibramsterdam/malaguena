@@ -45,6 +45,7 @@ export default class extends Controller {
     this.timer = setInterval(() => this.tick(), 250)
     if (this.currentSegment.kind === "tab_practice") {
       this.metronome.setBpm(this.currentSegment.bpm)
+      this.metronome.setMeter(this.currentSegment.beats)
       this.metronome.start()
     }
     this.requestWakeLock()
@@ -107,6 +108,7 @@ export default class extends Controller {
       this.timer = setInterval(() => this.tick(), 250)
       if (this.currentSegment.kind === "tab_practice") {
         this.metronome.setBpm(this.currentSegment.bpm)
+        this.metronome.setMeter(this.currentSegment.beats)
         this.metronome.start()
       }
     }

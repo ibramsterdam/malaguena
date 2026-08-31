@@ -5,8 +5,12 @@ import { Controller } from "@hotwired/stimulus"
 // ear). Each click also dispatches a window-level "metronome:beat" event that
 // the tab playhead follows.
 export default class extends Controller {
-  static targets = ["bpm", "slider", "toggle", "dots", "marking", "markingRow", "timerInput", "timerDisplay", "beatButton"]
-  static values = { bpm: { type: Number, default: 80 }, beatsPerBar: { type: Number, default: 4 } }
+  static targets = ["bpm", "slider", "toggle", "dots", "marking", "markingRow", "timerInput", "timerDisplay", "beatButton", "accent"]
+  static values = {
+    bpm: { type: Number, default: 80 },
+    beatsPerBar: { type: Number, default: 4 },
+    accent: { type: Boolean, default: true }
+  }
 
   static LOOKAHEAD_MS = 25
   static SCHEDULE_AHEAD_S = 0.1
@@ -69,8 +73,13 @@ export default class extends Controller {
     }
   }
 
+  toggleAccent() {
+    this.accentValue = !this.accentValue
+    this.render()
+  }
+
   click(beat, time) {
-    const accent = beat % this.beatsPerBarValue === 0
+    const accent = this.accentValue && beat % this.beatsPerBarValue === 0
     const osc = this.audioContext.createOscillator()
     const gain = this.audioContext.createGain()
     osc.frequency.value = accent ? 1244 : 932
@@ -130,7 +139,11 @@ export default class extends Controller {
   // ----- beats per bar -----
 
   setBeats(event) {
-    this.beatsPerBarValue = Number(event.params.count)
+    this.setMeter(Number(event.params.count))
+  }
+
+  setMeter(count) {
+    this.beatsPerBarValue = count
     this.renderDots()
     this.render()
   }
@@ -172,6 +185,10 @@ export default class extends Controller {
     if (this.hasSliderTarget) this.sliderTarget.value = this.bpmValue
     if (this.hasToggleTarget) this.toggleTarget.textContent = this.running ? "Pause" : "Start"
     if (this.hasMarkingTarget) this.markingTarget.textContent = this.marking()?.name ?? ""
+    if (this.hasAccentTarget) {
+      this.accentTarget.classList.toggle("active", this.accentValue)
+      this.accentTarget.setAttribute("aria-pressed", String(this.accentValue))
+    }
     if (this.hasBeatButtonTarget) {
       this.beatButtonTargets.forEach(button => {
         button.classList.toggle("active", Number(button.dataset.metronomeCountParam) === this.beatsPerBarValue)

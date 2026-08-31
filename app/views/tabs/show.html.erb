@@ -11,7 +11,9 @@
   <%= link_to "All tabs", tabs_path, class: "muted" %>
 </div>
 
-<div class="play-bar" data-controller="metronome transport" data-metronome-bpm-value="<%= @tab.default_bpm %>">
+<div class="play-bar" data-controller="metronome transport"
+     data-metronome-bpm-value="<%= @tab.default_bpm %>"
+     data-metronome-beats-per-bar-value="<%= @tab.beats_per_bar %>">
   <span class="play-bar-label">Play along</span>
   <span class="play-bar-bpm"><span data-metronome-target="bpm"><%= @tab.default_bpm %></span> <small>BPM</small></span>
   <div class="metro-dots play-bar-dots" data-metronome-target="dots" aria-hidden="true"></div>
@@ -28,6 +30,8 @@
     <button class="btn btn-ghost" data-action="metronome#nudge" data-metronome-amount-param="-5">−5</button>
     <button class="btn btn-ghost" data-action="metronome#nudge" data-metronome-amount-param="5">+5</button>
   </span>
+  <button class="btn btn-ghost active" aria-pressed="true" title="Accent the first beat of the bar"
+          data-metronome-target="accent" data-action="metronome#toggleAccent">Accent</button>
   <button class="btn btn-ghost" hidden data-transport-target="clear"
           data-action="transport#send" data-transport-action-param="clearloop">✕ loop</button>
 </div>
