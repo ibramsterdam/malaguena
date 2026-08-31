@@ -1,22 +1,28 @@
-<p class="eyebrow">Practice tool</p>
-<h1>Buenas, Bram</h1>
-<p class="muted">Tune up, set a tempo, and get to work.</p>
+<% content_for :title, "Malagueña" %>
 
-<div class="home-cards">
-  <%= link_to routines_path, class: "card" do %>
-    <h3>Routines</h3>
-    <p>Timed practice sessions, segment by segment.</p>
-  <% end %>
-  <%= link_to tabs_path, class: "card" do %>
-    <h3>Tabs</h3>
-    <p>Your ASCII tab library, on the engraved panel.</p>
-  <% end %>
-  <%= link_to metronome_path, class: "card" do %>
-    <h3>Metronome</h3>
-    <p>Drift-free clicks from the audio clock.</p>
-  <% end %>
-  <%= link_to tuner_path, class: "card" do %>
-    <h3>Tuner</h3>
-    <p>Pluck a string, land on the note.</p>
-  <% end %>
+<div class="manifesto">
+  <p class="eyebrow">The idea</p>
+  <h1>Just play.</h1>
+
+  <p class="manifesto-lead">
+    Every tuner app and every tab site wants something from you before you
+    play a note — an account, a subscription, an ad break, one more popup.
+    This one wants nothing.
+  </p>
+
+  <p>
+    Malagueña is four small tools that stay out of the way: a library of
+    tab music, a tuner that listens, a metronome that doesn't drift, and
+    daily practice routines that run themselves. No sign-ups, no upsells,
+    nothing between you and the strings.
+  </p>
+
+  <p class="manifesto-story">
+    It takes its name from the piece that made me pick the guitar back up.
+  </p>
+
+  <div class="toolbar manifesto-actions">
+    <%= link_to "Tune up", tuner_path, class: "btn" %>
+    <%= link_to "Start a routine", routines_path, class: "btn btn-ghost" %>
+  </div>
 </div>
