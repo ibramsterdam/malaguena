@@ -170,7 +170,7 @@ export default class extends Controller {
   render() {
     if (this.hasBpmTarget) this.bpmTarget.textContent = this.bpmValue
     if (this.hasSliderTarget) this.sliderTarget.value = this.bpmValue
-    if (this.hasToggleTarget) this.toggleTarget.textContent = this.running ? "Stop" : "Start"
+    if (this.hasToggleTarget) this.toggleTarget.textContent = this.running ? "Pause" : "Start"
     if (this.hasMarkingTarget) this.markingTarget.textContent = this.marking()?.name ?? ""
     if (this.hasBeatButtonTarget) {
       this.beatButtonTargets.forEach(button => {

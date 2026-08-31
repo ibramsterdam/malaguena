@@ -15,6 +15,7 @@
   <span class="play-bar-label">Play along</span>
   <span class="play-bar-bpm"><span data-metronome-target="bpm"><%= @tab.default_bpm %></span> <small>BPM</small></span>
   <div class="metro-dots play-bar-dots" data-metronome-target="dots" aria-hidden="true"></div>
+  <button class="btn" data-metronome-target="toggle" data-action="metronome#toggle">Start</button>
   <button class="btn btn-ghost" title="Restart" aria-label="Restart"
           data-action="transport#send" data-transport-action-param="restart">⟲</button>
   <button class="btn btn-ghost" title="Back a note" aria-label="Back a note"
@@ -22,7 +23,6 @@
   <button class="btn btn-ghost" title="Forward a note" aria-label="Forward a note"
           data-action="transport#send" data-transport-action-param="forward">›</button>
   <button class="btn btn-ghost" data-action="metronome#nudge" data-metronome-amount-param="-5">−5</button>
-  <button class="btn" data-metronome-target="toggle" data-action="metronome#toggle">Start</button>
   <button class="btn btn-ghost" data-action="metronome#nudge" data-metronome-amount-param="5">+5</button>
   <button class="btn btn-ghost" hidden data-transport-target="clear"
           data-action="transport#send" data-transport-action-param="clearloop">✕ loop</button>

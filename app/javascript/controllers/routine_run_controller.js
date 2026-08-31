@@ -59,9 +59,8 @@ export default class extends Controller {
     this.render()
   }
 
-  skip() {
-    if (this.state === "done") return
-    this.advance()
+  nudge(event) {
+    this.metronome.setBpm(this.metronome.bpmValue + Number(event.params.amount))
   }
 
   // Tapping a segment restarts practice from the top of that segment.
@@ -146,7 +145,7 @@ export default class extends Controller {
   }
 
   render() {
-    const labels = { idle: "Start practice", running: "Pause", paused: "Resume", done: "Go again" }
+    const labels = { idle: "Start practice", running: "Pause", paused: "Start", done: "Start again" }
     this.toggleTarget.textContent = labels[this.state]
     if (this.state === "done") {
       this.statusTarget.textContent = "¡Olé! Practice complete."
