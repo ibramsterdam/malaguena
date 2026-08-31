@@ -79,7 +79,9 @@ export default class extends Controller {
   // bring that system to the middle of the screen on its own.
   scrollPageToPlayhead() {
     const rect = this.playhead.getBoundingClientRect()
-    const top = rect.top + window.scrollY - (window.innerHeight - rect.height) / 2
+    const barHeight = document.querySelector(".play-bar")?.offsetHeight ?? 0
+    const visible = window.innerHeight - barHeight
+    const top = rect.top + window.scrollY - (visible - rect.height) / 2
     window.scrollTo({ top: Math.max(0, top), behavior: "smooth" })
   }
 }

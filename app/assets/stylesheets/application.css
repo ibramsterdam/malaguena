@@ -225,7 +225,42 @@ pre.tab-sheet {
   transition: left 0.08s linear;
 }
 
-.tab-metro { max-width: 300px; margin-top: 1.25rem; }
+/* Sticky play-along bar: the tab scrolls behind it, the transport stays
+   reachable — bottom of the screen, inside thumb range on a phone. */
+.play-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.65rem clamp(1rem, 4vw, 2rem) calc(0.65rem + env(safe-area-inset-bottom));
+  background: var(--panel);
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.35);
+}
+.play-bar-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.play-bar-bpm {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.play-bar-bpm small { font-size: 0.75rem; color: var(--muted); font-family: var(--sans); font-weight: 400; }
+.play-bar .metro-dots { margin: 0; }
+.play-bar-spacer { height: calc(4.4rem + env(safe-area-inset-bottom)); }
+@media (max-width: 540px) {
+  .play-bar { gap: 0.6rem; }
+  .play-bar-label { display: none; }
+}
 
 /* ---------- routines ---------- */
 
