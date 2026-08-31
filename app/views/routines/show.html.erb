@@ -37,11 +37,6 @@
           <span class="dial-label">Time left</span>
           <span class="dial-big" data-routine-run-target="clock">00:00</span>
         </div>
-        <div class="card dial" data-controller="metronome" data-routine-run-target="metronome">
-          <span class="dial-label">Metronome</span>
-          <span class="dial-big"><span data-metronome-target="bpm">80</span> <small>BPM</small></span>
-          <div class="metro-dots dial-dots" data-metronome-target="dots" aria-hidden="true"></div>
-        </div>
       </div>
 
       <% @routine.segments.each do |segment| %>
@@ -58,23 +53,27 @@
         </div>
       <% end %>
 
-      <div class="toolbar" data-controller="transport">
-        <button class="btn player-toggle" data-routine-run-target="toggle" data-action="routine-run#toggle">Start practice</button>
-        <span class="btn-group">
-          <button class="btn btn-ghost" title="Restart" aria-label="Restart"
-                  data-action="transport#send" data-transport-action-param="restart">⟲</button>
-          <button class="btn btn-ghost" title="Back a note" aria-label="Back a note"
-                  data-action="transport#send" data-transport-action-param="back">‹</button>
-          <button class="btn btn-ghost" title="Forward a note" aria-label="Forward a note"
-                  data-action="transport#send" data-transport-action-param="forward">›</button>
-        </span>
-        <span class="btn-group">
-          <button class="btn btn-ghost" data-action="routine-run#nudge" data-routine-run-amount-param="-5">−5</button>
-          <button class="btn btn-ghost" data-action="routine-run#nudge" data-routine-run-amount-param="5">+5</button>
-        </span>
-        <button class="btn btn-ghost" hidden data-transport-target="clear"
-                data-action="transport#send" data-transport-action-param="clearloop">✕ loop</button>
-      </div>
     </section>
+  </div>
+
+  <div class="play-bar" data-controller="metronome transport" data-routine-run-target="metronome">
+    <span class="play-bar-label">Practice</span>
+    <span class="play-bar-bpm"><span data-metronome-target="bpm">80</span> <small>BPM</small></span>
+    <div class="metro-dots play-bar-dots" data-metronome-target="dots" aria-hidden="true"></div>
+    <button class="btn" data-routine-run-target="toggle" data-action="routine-run#toggle">Start practice</button>
+    <span class="btn-group">
+      <button class="btn btn-ghost" title="Restart" aria-label="Restart"
+              data-action="transport#send" data-transport-action-param="restart">⟲</button>
+      <button class="btn btn-ghost" title="Back a note" aria-label="Back a note"
+              data-action="transport#send" data-transport-action-param="back">‹</button>
+      <button class="btn btn-ghost" title="Forward a note" aria-label="Forward a note"
+              data-action="transport#send" data-transport-action-param="forward">›</button>
+    </span>
+    <span class="btn-group">
+      <button class="btn btn-ghost" data-action="routine-run#nudge" data-routine-run-amount-param="-5">−5</button>
+      <button class="btn btn-ghost" data-action="routine-run#nudge" data-routine-run-amount-param="5">+5</button>
+    </span>
+    <button class="btn btn-ghost" hidden data-transport-target="clear"
+            data-action="transport#send" data-transport-action-param="clearloop">✕ loop</button>
   </div>
 </div>
