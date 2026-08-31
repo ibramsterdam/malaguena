@@ -7,8 +7,11 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["note", "cents", "needle", "status", "toggle", "string"]
 
-  static IN_TUNE_CENTS = 5
-  static HOLD_FRAMES = 20   // ~a third of a second of steady, in-tune sound
+  // Ten cents is comfortably inside what an ear notices while playing —
+  // guitars, rooms and laptop microphones are not lab equipment, so good
+  // is good enough.
+  static IN_TUNE_CENTS = 10
+  static HOLD_FRAMES = 15   // ~a quarter second of steady, in-tune sound
   static SWITCH_FRAMES = 6  // steady frames of another string before following it
 
   connect() {
@@ -131,7 +134,7 @@ export default class extends Controller {
       this.centsTarget.textContent = this.celebrated ? `${this.selected.name} is in tune ✓` : "In tune, hold it…"
     } else {
       this.holdFrames = 0
-      if (Math.abs(rounded) > 15) this.celebrated = false
+      if (Math.abs(rounded) > 25) this.celebrated = false
       this.centsTarget.textContent =
         rounded > 0 ? `${rounded} sharp, tune down` : `${-rounded} flat, tune up`
     }
