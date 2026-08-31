@@ -384,17 +384,18 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
 }
 .tuner-needle.in-tune { background: #8FBB6C; box-shadow: 0 0 10px #8FBB6C; }
 
-.tuner-head { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1.2rem; }
-.tuner-art { width: 190px; height: auto; display: block; }
-.tuner-side {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-self: stretch;
-  gap: 0.6rem;
-}
+/* The SVG is 260 viewBox units wide, drawn at 230px (scale 0.885). The
+   knob rows sit at viewBox y 80/145/210, so the buttons are pinned at the
+   scaled offsets to line up with the paddles they label. */
+.tuner-head { position: relative; width: fit-content; margin: 0 auto 1.2rem; padding: 0 50px; }
+.tuner-art { width: 230px; height: auto; display: block; }
+.tuner-string.side-left { left: 2px; }
+.tuner-string.side-right { right: 2px; }
+.tuner-string.row-1 { top: 50px; }
+.tuner-string.row-2 { top: 107px; }
+.tuner-string.row-3 { top: 165px; }
 .tuner-string {
-  position: relative;
+  position: absolute;
   width: 2.6rem;
   height: 2.6rem;
   display: flex;

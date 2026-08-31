@@ -16,59 +16,70 @@
   </div>
 
   <div class="tuner-head">
-    <div class="tuner-side">
-      <% [["D3", 146.83], ["A2", 110.0], ["E2", 82.41]].each do |name, frequency| %>
-        <button type="button" class="tuner-string" aria-label="Tune the <%= name %> string"
-                data-tuner-target="string" data-action="tuner#select"
-                data-name="<%= name %>" data-frequency="<%= frequency %>"><%= name.first %></button>
-      <% end %>
-    </div>
-    <svg class="tuner-art" viewBox="0 0 200 340" aria-hidden="true">
-      <!-- head plate, gently tapering, with a dipped crown -->
-      <path d="M45 262 L35 45 Q35 22 55 22 L82 22 Q100 31 118 22 L145 22 Q165 22 165 45 L155 262 Z"
-            fill="#33241A" stroke="var(--line)" stroke-width="2" stroke-linejoin="round"/>
+    <svg class="tuner-art" viewBox="0 0 260 340" aria-hidden="true">
+      <defs>
+        <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#523823"/>
+          <stop offset="1" stop-color="#3A2817"/>
+        </linearGradient>
+        <linearGradient id="neckwood" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3A2817"/>
+          <stop offset="1" stop-color="#2C1E11"/>
+        </linearGradient>
+      </defs>
+
+      <!-- tightening knobs: bone paddles on metal stems -->
+      <g stroke-linecap="round">
+        <% [80, 145, 210].each do |y| %>
+          <rect x="40"  y="<%= y - 3 %>" width="40" height="6" rx="3" fill="#8C744E"/>
+          <rect x="180" y="<%= y - 3 %>" width="40" height="6" rx="3" fill="#8C744E"/>
+          <rect x="16"  y="<%= y - 15 %>" width="26" height="30" rx="11" fill="#D8C9A8" stroke="#8C744E" stroke-width="1.5"/>
+          <rect x="218" y="<%= y - 15 %>" width="26" height="30" rx="11" fill="#D8C9A8" stroke="#8C744E" stroke-width="1.5"/>
+        <% end %>
+      </g>
+
+      <!-- head plate with a carved crown -->
+      <path d="M82 262 L75 52 Q75 38 84 32 Q98 23 110 28 Q122 33 130 40 Q138 33 150 28 Q162 23 176 32 Q185 38 185 52 L178 262 Z"
+            fill="url(#wood)" stroke="#5E442C" stroke-width="2.5" stroke-linejoin="round"/>
+
       <!-- slots -->
-      <rect x="58" y="52" width="34" height="186" rx="15" fill="var(--panel-deep)" stroke="var(--line)" stroke-width="1.5"/>
-      <rect x="108" y="52" width="34" height="186" rx="15" fill="var(--panel-deep)" stroke="var(--line)" stroke-width="1.5"/>
-      <!-- axles reaching in from the tuning machines -->
-      <g stroke="#4A3524" stroke-width="3.5" stroke-linecap="round">
-        <line x1="39" y1="80"  x2="75" y2="80"/>
-        <line x1="41" y1="145" x2="75" y2="145"/>
-        <line x1="43" y1="210" x2="75" y2="210"/>
-        <line x1="161" y1="80"  x2="125" y2="80"/>
-        <line x1="159" y1="145" x2="125" y2="145"/>
-        <line x1="157" y1="210" x2="125" y2="210"/>
+      <rect x="88"  y="58" width="32" height="180" rx="16" fill="#1A120B" stroke="#2A1B10" stroke-width="1.5"/>
+      <rect x="140" y="58" width="32" height="180" rx="16" fill="#1A120B" stroke="#2A1B10" stroke-width="1.5"/>
+
+      <!-- rollers and string posts -->
+      <g>
+        <% [80, 145, 210].each do |y| %>
+          <rect x="92"  y="<%= y - 8 %>" width="24" height="16" rx="7" fill="#7A5C3A" stroke="#2A1B10" stroke-width="1"/>
+          <rect x="144" y="<%= y - 8 %>" width="24" height="16" rx="7" fill="#7A5C3A" stroke="#2A1B10" stroke-width="1"/>
+          <circle cx="104" cy="<%= y %>" r="3.2" fill="#D8C9A8"/>
+          <circle cx="156" cy="<%= y %>" r="3.2" fill="#D8C9A8"/>
+        <% end %>
       </g>
-      <!-- rollers -->
-      <g fill="#4A3524" stroke="var(--line)" stroke-width="1">
-        <rect x="60" y="73" width="30" height="14" rx="6"/>
-        <rect x="60" y="138" width="30" height="14" rx="6"/>
-        <rect x="60" y="203" width="30" height="14" rx="6"/>
-        <rect x="110" y="73" width="30" height="14" rx="6"/>
-        <rect x="110" y="138" width="30" height="14" rx="6"/>
-        <rect x="110" y="203" width="30" height="14" rx="6"/>
-      </g>
+
       <!-- neck -->
-      <path d="M66 273 L134 273 L136 335 L64 335 Z" fill="#33241A" stroke="var(--line)" stroke-width="1.5"/>
+      <path d="M95 268 L165 268 L168 335 L92 335 Z" fill="url(#neckwood)" stroke="#2A1B10" stroke-width="1.5"/>
+
       <!-- strings: basses off the left rollers, trebles off the right -->
-      <g stroke="#C9B893" fill="none" stroke-linecap="round">
-        <path d="M75 210 L78 267 L77 335" stroke-width="2.2"/>
-        <path d="M75 145 L87 267 L86.5 335" stroke-width="1.9"/>
-        <path d="M75 80 L96 267 L96 335" stroke-width="1.6"/>
-        <path d="M125 80 L105 267 L105 335" stroke-width="1.3"/>
-        <path d="M125 145 L114 267 L114.5 335" stroke-width="1.1"/>
-        <path d="M125 210 L123 267 L124 335" stroke-width="0.9"/>
+      <g stroke="#E8D9B4" fill="none" stroke-linecap="round">
+        <path d="M104 210 L104 266 L103 335"   stroke-width="2.4"/>
+        <path d="M104 145 L114.4 266 L114 335" stroke-width="2.0"/>
+        <path d="M104 80  L124.8 266 L125 335" stroke-width="1.7"/>
+        <path d="M156 80  L135.2 266 L135 335" stroke-width="1.4"/>
+        <path d="M156 145 L145.6 266 L146 335" stroke-width="1.15"/>
+        <path d="M156 210 L156 266 L157 335"   stroke-width="0.95"/>
       </g>
+
       <!-- nut -->
-      <rect x="67" y="265" width="66" height="7" rx="2.5" fill="#D8C9A8"/>
+      <rect x="93" y="262" width="74" height="8" rx="3" fill="#EBDCC0"/>
     </svg>
-    <div class="tuner-side">
-      <% [["G3", 196.0], ["B3", 246.94], ["E4", 329.63]].each do |name, frequency| %>
-        <button type="button" class="tuner-string" aria-label="Tune the <%= name %> string"
-                data-tuner-target="string" data-action="tuner#select"
-                data-name="<%= name %>" data-frequency="<%= frequency %>"><%= name.first %></button>
-      <% end %>
-    </div>
+
+    <% [["D3", 146.83, "side-left",  "row-1"], ["A2", 110.0,  "side-left",  "row-2"],
+        ["E2", 82.41,  "side-left",  "row-3"], ["G3", 196.0,  "side-right", "row-1"],
+        ["B3", 246.94, "side-right", "row-2"], ["E4", 329.63, "side-right", "row-3"]].each do |name, frequency, side, row| %>
+      <button type="button" class="tuner-string <%= side %> <%= row %>" aria-label="Tune the <%= name %> string"
+              data-tuner-target="string" data-action="tuner#select"
+              data-name="<%= name %>" data-frequency="<%= frequency %>"><%= name.first %></button>
+    <% end %>
   </div>
 
   <p class="muted tuner-status" data-tuner-target="status">Starting the microphone…</p>
