@@ -41,10 +41,10 @@ export default class extends Controller {
 
   start() {
     if (this.running) return
-    this.context ||= new (window.AudioContext || window.webkitAudioContext)()
-    this.context.resume()
+    this.audioContext ||= new (window.AudioContext || window.webkitAudioContext)()
+    this.audioContext.resume()
     this.beat = 0
-    this.nextBeatTime = this.context.currentTime + 0.08
+    this.nextBeatTime = this.audioContext.currentTime + 0.08
     this.timer = setInterval(() => this.schedule(), this.constructor.LOOKAHEAD_MS)
     this.startCountdown()
     this.running = true
@@ -61,7 +61,7 @@ export default class extends Controller {
   }
 
   schedule() {
-    while (this.nextBeatTime < this.context.currentTime + this.constructor.SCHEDULE_AHEAD_S) {
+    while (this.nextBeatTime < this.audioContext.currentTime + this.constructor.SCHEDULE_AHEAD_S) {
       this.click(this.beat, this.nextBeatTime)
       this.announce(this.beat, this.nextBeatTime)
       this.nextBeatTime += 60.0 / this.bpmValue
@@ -71,19 +71,19 @@ export default class extends Controller {
 
   click(beat, time) {
     const accent = beat % this.beatsPerBarValue === 0
-    const osc = this.context.createOscillator()
-    const gain = this.context.createGain()
+    const osc = this.audioContext.createOscillator()
+    const gain = this.audioContext.createGain()
     osc.frequency.value = accent ? 1244 : 932
     gain.gain.setValueAtTime(accent ? 0.5 : 0.32, time)
     gain.gain.exponentialRampToValueAtTime(0.001, time + 0.05)
-    osc.connect(gain).connect(this.context.destination)
+    osc.connect(gain).connect(this.audioContext.destination)
     osc.start(time)
     osc.stop(time + 0.06)
   }
 
   // Fire the visual/beat event at the moment the click actually sounds.
   announce(beat, time) {
-    const delay = Math.max(0, (time - this.context.currentTime) * 1000)
+    const delay = Math.max(0, (time - this.audioContext.currentTime) * 1000)
     setTimeout(() => {
       if (!this.running) return
       window.dispatchEvent(new CustomEvent("metronome:beat", { detail: { beat, bpm: this.bpmValue } }))

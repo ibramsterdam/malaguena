@@ -37,10 +37,10 @@ export default class extends Controller {
       this.statusTarget.textContent = "Microphone access was refused — the tuner needs it to hear you."
       return
     }
-    this.context = new (window.AudioContext || window.webkitAudioContext)()
-    this.analyser = this.context.createAnalyser()
+    this.audioContext = new (window.AudioContext || window.webkitAudioContext)()
+    this.analyser = this.audioContext.createAnalyser()
     this.analyser.fftSize = 2048
-    this.context.createMediaStreamSource(this.stream).connect(this.analyser)
+    this.audioContext.createMediaStreamSource(this.stream).connect(this.analyser)
     this.buffer = new Float32Array(this.analyser.fftSize)
     this.listening = true
     this.toggleTarget.textContent = "Stop"
@@ -52,8 +52,8 @@ export default class extends Controller {
     this.listening = false
     cancelAnimationFrame(this.frame)
     this.stream?.getTracks().forEach(track => track.stop())
-    this.context?.close()
-    this.context = null
+    this.audioContext?.close()
+    this.audioContext = null
     this.toggleTarget.textContent = "Start tuning"
     this.statusTarget.textContent = "Microphone is off."
     this.noteTarget.textContent = "—"
@@ -65,7 +65,7 @@ export default class extends Controller {
   loop() {
     if (!this.listening) return
     this.analyser.getFloatTimeDomainData(this.buffer)
-    const pitch = this.detectPitch(this.buffer, this.context.sampleRate)
+    const pitch = this.detectPitch(this.buffer, this.audioContext.sampleRate)
     if (pitch) this.show(pitch)
     this.frame = requestAnimationFrame(() => this.loop())
   }
