@@ -33,10 +33,19 @@ body {
 
 main.page { flex: 1; width: 100%; }
 
-/* Pages that are a single instrument center it in the leftover space.
-   Auto margins never clip, so overflow still scrolls normally. */
-main.page-centered { display: flex; flex-direction: column; padding-bottom: 1.5rem; }
-.page-centered .tuner { margin: auto; width: 100%; }
+/* Single-instrument app screen: the page is exactly one viewport tall and
+   cannot scroll; the flexible part of the card (the headstock) shrinks to
+   whatever space is genuinely left. */
+body.app-screen { height: 100dvh; overflow: hidden; }
+main.page-centered { display: flex; flex-direction: column; min-height: 0; padding-bottom: 1.5rem; }
+.page-centered .tuner {
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
 
 .site-footer {
   border-top: 1px solid var(--line);
@@ -503,24 +512,24 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
 }
 .tuner-needle.in-tune { background: #8FBB6C; box-shadow: 0 0 10px #8FBB6C; }
 
-/* The SVG is 260 viewBox units wide, drawn at 230px (scale 0.885). The
-   knob rows sit at viewBox y 80/145/210, so the buttons are pinned at the
-   scaled offsets to line up with the paddles they label. */
-.tuner-head { position: relative; width: fit-content; margin: 0 auto 0.8rem; padding: 0 46px; }
-/* The headstock takes whatever height the viewport can spare (the 460px
-   constant is everything else on the page: header, card chrome, footer),
-   so the tuner never scrolls. 0.647 converts spare height to SVG width
-   (viewBox is 220 wide by 340 tall). */
-.tuner-art {
-  width: clamp(110px, calc((100dvh - 460px) * 0.647), 195px);
-  height: auto;
-  display: block;
+/* The head area soaks up the card's leftover height; the rig (SVG plus its
+   pinned peg buttons) scales inside it, keeping its aspect ratio, capped at
+   full drawing size. No viewport math — flexbox decides. */
+.tuner-head {
+  flex: 1 1 auto;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 0.8rem;
 }
+.tuner-rig { position: relative; height: 100%; max-height: 302px; padding: 0 46px; width: fit-content; }
+.tuner-art { display: block; height: 100%; width: auto; max-width: 195px; }
 
 @media (max-height: 820px) {
   .tuner-note { font-size: 2.6rem; }
   .tuner { padding: 1rem 1.2rem; }
-  .tuner-head { padding: 0 40px; }
+  .tuner-rig { padding: 0 40px; }
   .tuner-string { width: 2.3rem; height: 2.3rem; font-size: 0.9rem; }
 }
 .tuner-art path { transition: stroke 0.2s; }

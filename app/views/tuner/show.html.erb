@@ -1,5 +1,6 @@
 <% content_for :title, "Tuner · Malagueña" %>
 <% content_for :page_class, "page-centered" %>
+<% content_for :body_class, "app-screen" %>
 
 <div class="card tuner" data-controller="tuner">
   <div class="tuner-note" data-tuner-target="note">—</div>
@@ -15,6 +16,7 @@
   </div>
 
   <div class="tuner-head">
+    <div class="tuner-rig">
     <svg class="tuner-art" viewBox="20 0 220 340" aria-hidden="true">
       <defs>
         <linearGradient id="ebony" x1="0" y1="0" x2="0" y2="1">
@@ -82,6 +84,7 @@
               data-tuner-target="string" data-action="tuner#select"
               data-name="<%= name %>" data-frequency="<%= frequency %>"><%= name.first %></button>
     <% end %>
+    </div>
   </div>
 
   <p class="muted tuner-status" data-tuner-target="status">Starting the microphone…</p>
