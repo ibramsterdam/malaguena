@@ -40,7 +40,8 @@ main.page { flex: 1; width: 100%; }
   color: var(--muted);
   font-size: 0.85rem;
 }
-.site-footer .maker { font-family: var(--serif); font-style: italic; color: var(--ink); }
+.site-footer .maker { font-family: var(--serif); font-style: italic; color: var(--ink); text-decoration: none; }
+.site-footer .maker:hover { color: var(--accent); }
 
 /* ---------- shell ---------- */
 
