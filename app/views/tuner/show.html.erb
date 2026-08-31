@@ -23,10 +23,6 @@
           <stop offset="0.5" stop-color="#1C130C"/>
           <stop offset="1" stop-color="#241A12"/>
         </linearGradient>
-        <linearGradient id="neckwood" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#3A2817"/>
-          <stop offset="1" stop-color="#2C1E11"/>
-        </linearGradient>
       </defs>
 
       <!-- tightening knobs: ebony paddles on short stems -->
@@ -59,10 +55,12 @@
         <% end %>
       </g>
 
-      <!-- neck, running off the bottom of the canvas -->
-      <path d="M96 268 L164 268 L169 346 L91 346 Z" fill="url(#neckwood)" stroke="#2A1B10" stroke-width="1.5"/>
+      <!-- neck, running off the bottom of the canvas: warm wood with an
+           ebony fretboard on top, its lighter edges showing on both sides -->
+      <path d="M88 268 L172 268 L178 346 L82 346 Z" fill="#4E3624" stroke="#2A1B10" stroke-width="1.5"/>
+      <path d="M92 268 L168 268 L173 346 L87 346 Z" fill="#1B130C"/>
       <!-- first fret -->
-      <rect x="93" y="308" width="74" height="3" rx="1.5" fill="#A98F6B"/>
+      <rect x="89.5" y="308" width="81" height="3" rx="1.5" fill="#A98F6B"/>
 
       <!-- strings: basses off the left posts, trebles off the right -->
       <g stroke="#E8D9B4" fill="none" stroke-linecap="round">
@@ -75,7 +73,7 @@
       </g>
 
       <!-- nut -->
-      <rect x="94" y="262" width="72" height="8" rx="3" fill="#EBDCC0"/>
+      <rect x="86" y="262" width="88" height="8" rx="3" fill="#EBDCC0"/>
     </svg>
 
     <% [["D3", 146.83, "side-left",  "row-1"], ["A2", 110.0,  "side-left",  "row-2"],
