@@ -136,21 +136,30 @@
     <g class="note n3"><ellipse cx="486" cy="244" rx="6.5" ry="5" transform="rotate(-18 486 244)"/><rect x="490.5" y="218" width="2.6" height="26" rx="1.3"/><path d="M493 218 q10 3 8 13 q-2 -6 -8 -7 Z"/></g>
   </g>
 
-  <!-- cat, napping on the other cushion -->
+  <!-- cat, a calico napping on the other cushion -->
   <g>
+    <clipPath id="cat-body"><ellipse cx="636" cy="306" rx="52" ry="27"/></clipPath>
     <g class="tail">
       <path d="M688 322 q34 -4 30 -26 q-2 -12 -16 -12" stroke="#C98A4B" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <path d="M712 292 q6 -6 2 -12" stroke="#241A12" stroke-width="10" fill="none" stroke-linecap="round"/>
     </g>
     <g class="breathe">
-      <ellipse cx="636" cy="306" rx="52" ry="27" fill="#C98A4B"/>
-      <path d="M600 296 q10 -8 22 -4 M614 314 q12 -6 24 -2 M648 292 q10 -6 20 -2" stroke="#A96F3F" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="636" cy="306" rx="52" ry="27" fill="#E8D9B4"/>
+      <g clip-path="url(#cat-body)">
+        <ellipse cx="664" cy="292" rx="26" ry="18" fill="#C98A4B"/>
+        <ellipse cx="628" cy="286" rx="16" ry="12" fill="#241A12"/>
+        <ellipse cx="650" cy="322" rx="14" ry="10" fill="#241A12"/>
+        <ellipse cx="606" cy="316" rx="13" ry="10" fill="#C98A4B"/>
+      </g>
     </g>
     <!-- head resting on paws -->
-    <circle cx="590" cy="308" r="19" fill="#C98A4B"/>
+    <circle cx="590" cy="308" r="19" fill="#E8D9B4"/>
+    <path d="M590 289 a19 19 0 0 0 -13 33 q-2 -20 13 -33 Z" fill="#C98A4B"/>
     <path d="M577 295 l-3 -12 l11 6 Z" fill="#C98A4B"/>
-    <path d="M598 293 l5 -11 l-12 4 Z" fill="#C98A4B"/>
+    <path d="M598 293 l5 -11 l-12 4 Z" fill="#241A12"/>
+    <path d="M604 296 q8 6 5 16 q-8 2 -12 -2 q8 -6 7 -14 Z" fill="#241A12"/>
     <path d="M580 309 q4 3 8 0 M590 309 q4 3 8 0" stroke="#241A12" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <ellipse cx="583" cy="326" rx="10" ry="5" fill="#B77A3F"/>
-    <ellipse cx="601" cy="327" rx="10" ry="5" fill="#B77A3F"/>
+    <ellipse cx="583" cy="326" rx="10" ry="5" fill="#DCCDB4"/>
+    <ellipse cx="601" cy="327" rx="10" ry="5" fill="#DCCDB4"/>
   </g>
 </svg>
