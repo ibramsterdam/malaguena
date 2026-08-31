@@ -135,12 +135,27 @@ export default class extends Controller {
     if (start < width && ref.slice(start).trim() !== "") bars.push([start, width])
     if (bars.length === 0) return [lines]
 
+    // First pass: how many lines does a greedy fill need? Second pass:
+    // spread the bars evenly across that many lines, so five bars become
+    // 3+2 instead of 4 plus a dangling orphan.
+    let lines = 1
+    let runningWidth = labelEnd
+    bars.forEach(([from, to]) => {
+      const barWidth = to - from
+      if (runningWidth > labelEnd && runningWidth + barWidth > maxChars) {
+        lines += 1
+        runningWidth = labelEnd
+      }
+      runningWidth += barWidth
+    })
+    const perLine = Math.ceil(bars.length / lines)
+
     const groups = []
     let current = []
     let currentWidth = labelEnd
     bars.forEach(bar => {
       const barWidth = bar[1] - bar[0]
-      if (current.length > 0 && currentWidth + barWidth > maxChars) {
+      if (current.length > 0 && (current.length >= perLine || currentWidth + barWidth > maxChars)) {
         groups.push(current)
         current = []
         currentWidth = labelEnd
