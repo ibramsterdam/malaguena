@@ -30,8 +30,29 @@ export default class extends Controller {
   }
 
   async select(event) {
-    this.focusString(this.strings.find(string => string.element === event.currentTarget))
+    const string = this.strings.find(s => s.element === event.currentTarget)
+    if (this.selected === string) {
+      this.deselect()
+      return
+    }
+    this.focusString(string)
     if (!this.listening) await this.start()
+  }
+
+  // Tapping the selected peg again lets go of it: back to following
+  // whatever string is played.
+  deselect() {
+    this.selected = null
+    this.candidate = null
+    this.recent = []
+    this.holdFrames = 0
+    this.celebrated = false
+    this.strings.forEach(s => s.element.classList.remove("selected"))
+    this.stringLineTargets.forEach(line => line.classList.remove("lit"))
+    this.noteTarget.textContent = "—"
+    this.centsTarget.textContent = "Play any string."
+    this.needleTarget.style.setProperty("--deflection", "0")
+    this.needleTarget.classList.remove("in-tune")
   }
 
   focusString(string) {
