@@ -49,8 +49,8 @@
       <% @routine.segments.each do |segment| %>
         <div data-routine-run-target="pane" hidden>
           <% if segment.tab_practice? && segment.tab %>
-            <div class="engraved">
-              <pre class="tab-sheet"><%= segment.tab.body %></pre>
+            <div class="engraved" data-controller="tab-player">
+              <pre class="tab-sheet" data-tab-player-target="sheet"><%= segment.tab.body %></pre>
             </div>
           <% elsif segment.rest? %>
             <div class="card pane-calm">Shake out your hands. Breathe. The next segment starts on its own.</div>

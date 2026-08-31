@@ -191,6 +191,7 @@ textarea.tab-input { font-family: var(--mono); font-size: 0.85rem; white-space: 
 .tab-row .tab-title:hover { color: var(--accent); }
 
 pre.tab-sheet {
+  position: relative;
   margin: 0;
   font-family: var(--mono);
   font-size: 0.85rem;
@@ -198,6 +199,18 @@ pre.tab-sheet {
   color: #DCCDB4;
   min-width: max-content;
 }
+
+.tab-playhead {
+  position: absolute;
+  width: 1ch;
+  background: var(--accent-soft);
+  outline: 1px solid var(--accent);
+  border-radius: 2px;
+  pointer-events: none;
+  transition: left 0.08s linear;
+}
+
+.tab-metro { max-width: 300px; margin-top: 1.25rem; }
 
 /* ---------- routines ---------- */
 
