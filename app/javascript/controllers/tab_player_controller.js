@@ -11,13 +11,7 @@ export default class extends Controller {
   static targets = ["sheet"]
 
   connect() {
-    this.systems = []
-    this.columns = this.parse(this.sheetTarget.textContent)
-    this.pointer = -1
-    this.currentRow = null
-    this.loop = null
-    this.pendingA = null
-    this.loopEls = []
+    this.originalText = this.sheetTarget.textContent
 
     this.onBeat = () => this.advance()
     this.onBack = () => this.back()
@@ -33,10 +27,13 @@ export default class extends Controller {
     this.onClick = event => this.pick(event)
     this.sheetTarget.addEventListener("click", this.onClick)
 
-    this.playhead = document.createElement("span")
-    this.playhead.className = "tab-playhead"
-    this.playhead.hidden = true
-    this.sheetTarget.appendChild(this.playhead)
+    this.onResize = () => {
+      clearTimeout(this.resizeTimer)
+      this.resizeTimer = setTimeout(() => this.rebuild(), 250)
+    }
+    window.addEventListener("resize", this.onResize)
+
+    this.rebuild()
   }
 
   disconnect() {
@@ -45,9 +42,110 @@ export default class extends Controller {
     window.removeEventListener("tab:forward", this.onForward)
     window.removeEventListener("tab:restart", this.onRestart)
     window.removeEventListener("tab:clearloop", this.onClearLoop)
+    window.removeEventListener("resize", this.onResize)
     this.sheetTarget.removeEventListener("click", this.onClick)
+    clearTimeout(this.resizeTimer)
     cancelAnimationFrame(this.glideX)
     cancelAnimationFrame(this.glideY)
+  }
+
+  // Reflow the tab to the current width, then parse it fresh. Runs on
+  // connect and again when the viewport is resized; playback restarts
+  // from the top because every column index changes with the wrapping.
+  rebuild() {
+    this.systems = []
+    const text = this.reflow(this.originalText)
+    this.sheetTarget.textContent = text
+    this.columns = this.parse(text)
+    this.pointer = -1
+    this.currentRow = null
+    this.loop = null
+    this.pendingA = null
+    this.loopEls = []
+
+    this.playhead = document.createElement("span")
+    this.playhead.className = "tab-playhead"
+    this.playhead.hidden = true
+    this.sheetTarget.appendChild(this.playhead)
+    this.renderLoop()
+  }
+
+  // ----- reflow: re-wrap systems at barlines so they fit the screen -----
+
+  // Phones can't read a four-bar system; sideways scrolling through music
+  // is worse. Split every system at its barlines and deal out as many bars
+  // per line as the container can hold, like a typesetter would.
+  reflow(text) {
+    const maxChars = this.availableChars()
+    const out = []
+    let system = []
+    const flushSystem = () => {
+      if (system.length === 0) return
+      this.wrapSystem(system, maxChars).forEach((group, index) => {
+        if (index > 0) out.push("")
+        out.push(...group)
+      })
+      system = []
+    }
+    text.split("\n").forEach(line => {
+      if (/^[A-Ga-g]?\|/.test(line)) {
+        system.push(line)
+      } else {
+        flushSystem()
+        out.push(line)
+      }
+    })
+    flushSystem()
+    return out.join("\n")
+  }
+
+  wrapSystem(lines, maxChars) {
+    const width = Math.max(...lines.map(line => line.length))
+    const padded = lines.map(line => line.padEnd(width))
+    const ref = padded[0]
+    const labelEnd = ref.indexOf("|") + 1
+    if (labelEnd === 0) return [lines]
+
+    const bars = []
+    let start = labelEnd
+    for (let i = labelEnd; i < width; i++) {
+      if (ref[i] === "|") {
+        bars.push([start, i + 1])
+        start = i + 1
+      }
+    }
+    if (start < width && ref.slice(start).trim() !== "") bars.push([start, width])
+    if (bars.length === 0) return [lines]
+
+    const groups = []
+    let current = []
+    let currentWidth = labelEnd
+    bars.forEach(bar => {
+      const barWidth = bar[1] - bar[0]
+      if (current.length > 0 && currentWidth + barWidth > maxChars) {
+        groups.push(current)
+        current = []
+        currentWidth = labelEnd
+      }
+      current.push(bar)
+      currentWidth += barWidth
+    })
+    if (current.length > 0) groups.push(current)
+
+    return groups.map(group =>
+      padded.map(line => line.slice(0, labelEnd) + group.map(([from, to]) => line.slice(from, to)).join(""))
+    )
+  }
+
+  availableChars() {
+    // A hidden routine pane has no width of its own; borrow the nearest
+    // visible ancestor's.
+    let host = this.element
+    while (host && host.clientWidth === 0) host = host.parentElement
+    const hostWidth = host ? host.clientWidth : 600
+    const style = getComputedStyle(this.element)
+    const inner = hostWidth - (parseFloat(style.paddingLeft) || 0) - (parseFloat(style.paddingRight) || 0)
+    return Math.max(20, Math.floor(inner / this.charWidth()))
   }
 
   // Finds the systems (groups of consecutive string lines) and, within each,
@@ -140,12 +238,14 @@ export default class extends Controller {
     if (best) this.setLoopPoint(best.index)
   }
 
+  // Measured on the body with the sheet's font, so it works even while
+  // the sheet sits in a hidden routine pane.
   charWidth() {
     const probe = document.createElement("span")
     probe.textContent = "0"
-    probe.style.visibility = "hidden"
-    this.sheetTarget.appendChild(probe)
-    const width = probe.getBoundingClientRect().width
+    probe.style.cssText = `visibility: hidden; position: absolute; font: ${getComputedStyle(this.sheetTarget).font};`
+    document.body.appendChild(probe)
+    const width = probe.getBoundingClientRect().width || 8
     probe.remove()
     return width
   }
