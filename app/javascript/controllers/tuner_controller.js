@@ -5,7 +5,7 @@ import { Controller } from "@hotwired/stimulus"
 // a few steady frames of another string slides the selection over with a
 // little pulse. Holding within five cents rings a short bell of completion.
 export default class extends Controller {
-  static targets = ["note", "cents", "needle", "status", "string"]
+  static targets = ["note", "cents", "needle", "status", "string", "stringLine"]
 
   // Ten cents is comfortably inside what an ear notices while playing —
   // guitars, rooms and laptop microphones are not lab equipment, so good
@@ -42,6 +42,7 @@ export default class extends Controller {
     this.holdFrames = 0
     this.celebrated = false
     this.strings.forEach(s => s.element.classList.toggle("selected", s === string))
+    this.stringLineTargets.forEach(line => line.classList.toggle("lit", line.dataset.name === string.name))
     string.element.animate(
       [{ transform: "scale(1)" }, { transform: "scale(1.18)" }, { transform: "scale(1)" }],
       { duration: 250, easing: "ease-out" }

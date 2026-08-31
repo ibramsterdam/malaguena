@@ -16,7 +16,7 @@
   </div>
 
   <div class="tuner-head">
-    <svg class="tuner-art" viewBox="0 0 260 340" aria-hidden="true">
+    <svg class="tuner-art" viewBox="20 0 220 340" aria-hidden="true">
       <defs>
         <linearGradient id="ebony" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stop-color="#2B2018"/>
@@ -29,13 +29,13 @@
         </linearGradient>
       </defs>
 
-      <!-- tightening knobs: ebony paddles on their stems -->
+      <!-- tightening knobs: ebony paddles on short stems -->
       <g stroke-linecap="round">
         <% [80, 145, 210].each do |y| %>
-          <rect x="42"  y="<%= y - 3 %>" width="32" height="6" rx="3" fill="#55402A"/>
-          <rect x="186" y="<%= y - 3 %>" width="32" height="6" rx="3" fill="#55402A"/>
-          <rect x="18"  y="<%= y - 15 %>" width="26" height="30" rx="12" fill="#2B1F15" stroke="#6B5334" stroke-width="1.5"/>
-          <rect x="216" y="<%= y - 15 %>" width="26" height="30" rx="12" fill="#2B1F15" stroke="#6B5334" stroke-width="1.5"/>
+          <rect x="56"  y="<%= y - 3 %>" width="20" height="6" rx="3" fill="#55402A"/>
+          <rect x="184" y="<%= y - 3 %>" width="20" height="6" rx="3" fill="#55402A"/>
+          <rect x="34"  y="<%= y - 15 %>" width="26" height="30" rx="12" fill="#2B1F15" stroke="#6B5334" stroke-width="1.5"/>
+          <rect x="200" y="<%= y - 15 %>" width="26" height="30" rx="12" fill="#2B1F15" stroke="#6B5334" stroke-width="1.5"/>
         <% end %>
       </g>
 
@@ -64,12 +64,12 @@
 
       <!-- strings: basses off the left posts, trebles off the right -->
       <g stroke="#E8D9B4" fill="none" stroke-linecap="round">
-        <path d="M108 210 L102 266 L101 335" stroke-width="2.4"/>
-        <path d="M108 145 L113 266 L112.5 335" stroke-width="2.0"/>
-        <path d="M108 80  L124 266 L124 335" stroke-width="1.7"/>
-        <path d="M152 80  L135 266 L135 335" stroke-width="1.4"/>
-        <path d="M152 145 L146 266 L146.5 335" stroke-width="1.15"/>
-        <path d="M152 210 L157 266 L158 335" stroke-width="0.95"/>
+        <path d="M108 210 L102 266 L101 335" stroke-width="2.4" data-tuner-target="stringLine" data-name="E2"/>
+        <path d="M108 145 L113 266 L112.5 335" stroke-width="2.0" data-tuner-target="stringLine" data-name="A2"/>
+        <path d="M108 80  L124 266 L124 335" stroke-width="1.7" data-tuner-target="stringLine" data-name="D3"/>
+        <path d="M152 80  L135 266 L135 335" stroke-width="1.4" data-tuner-target="stringLine" data-name="G3"/>
+        <path d="M152 145 L146 266 L146.5 335" stroke-width="1.15" data-tuner-target="stringLine" data-name="B3"/>
+        <path d="M152 210 L157 266 L158 335" stroke-width="0.95" data-tuner-target="stringLine" data-name="E4"/>
       </g>
 
       <!-- nut -->
