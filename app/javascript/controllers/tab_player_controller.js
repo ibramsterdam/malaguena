@@ -215,7 +215,18 @@ export default class extends Controller {
     } else {
       next = this.pointer + 1
       if (this.loop && next > this.loop.b) next = this.loop.a
-      if (next >= this.columns.length) next = this.loop ? this.loop.a : 0
+      if (next >= this.columns.length) {
+        if (this.loop) {
+          next = this.loop.a
+        } else {
+          // Back to the top: park on the first note and ask the metronome
+          // for a breather — its next downbeat strikes this note.
+          this.pointer = 0
+          this.moveTo(this.columns[0])
+          window.dispatchEvent(new CustomEvent("tab:breather"))
+          return
+        }
+      }
     }
     this.pointer = next
     this.moveTo(this.columns[this.pointer])

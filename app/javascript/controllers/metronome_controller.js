@@ -32,12 +32,38 @@ export default class extends Controller {
   connect() {
     this.running = false
     this.taps = []
+    this.onBreather = () => this.breather(5)
+    window.addEventListener("tab:breather", this.onBreather)
     this.renderDots()
     this.render()
   }
 
   disconnect() {
+    window.removeEventListener("tab:breather", this.onBreather)
     this.stop()
+  }
+
+  // The piece wrapped back to the top: hold the clicks for a few seconds
+  // with a visible countdown, then come back in on a fresh downbeat.
+  breather(seconds) {
+    if (!this.running) return
+    clearInterval(this.timer)
+    clearInterval(this.breatherTimer)
+    this.showCountOverlay()
+    let left = seconds
+    this.updateCount(left)
+    this.breatherTimer = setInterval(() => {
+      left -= 1
+      if (left > 0) {
+        this.updateCount(left)
+        return
+      }
+      clearInterval(this.breatherTimer)
+      this.hideCountOverlay()
+      this.beat = 0
+      this.nextBeatTime = this.audioContext.currentTime + 0.08
+      this.timer = setInterval(() => this.schedule(), this.constructor.LOOKAHEAD_MS)
+    }, 1000)
   }
 
   toggle() {
@@ -62,6 +88,7 @@ export default class extends Controller {
   stop() {
     clearInterval(this.timer)
     clearInterval(this.countdown)
+    clearInterval(this.breatherTimer)
     this.countdown = null
     this.hideCountOverlay()
     this.running = false
